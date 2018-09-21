@@ -6,6 +6,7 @@ namespace Secret_Hitler
 {
     public partial class MainForm : Form
     {
+        //To see if git works
         public MainForm()
         {
             InitializeComponent();
