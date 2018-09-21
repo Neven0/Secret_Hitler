@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.BTN_NewGame = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.PB_Playing = new System.Windows.Forms.PictureBox();
             this.LBL_Player1 = new System.Windows.Forms.Label();
             this.LBL_Player2 = new System.Windows.Forms.Label();
             this.LBL_Player3 = new System.Windows.Forms.Label();
@@ -44,9 +44,21 @@
             this.LBL_Player2Role = new System.Windows.Forms.Label();
             this.LBL_Player4Role = new System.Windows.Forms.Label();
             this.LBL_Player3Role = new System.Windows.Forms.Label();
-            this.LBL_HumanPlayerRole = new System.Windows.Forms.Label();
+            this.LBL_PlayerHumanRole = new System.Windows.Forms.Label();
             this.BTN_Continuation = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.LBL_Player5Role = new System.Windows.Forms.Label();
+            this.LBL_Player5 = new System.Windows.Forms.Label();
+            this.LBL_Player6 = new System.Windows.Forms.Label();
+            this.LBL_Player6Role = new System.Windows.Forms.Label();
+            this.LBL_Player7 = new System.Windows.Forms.Label();
+            this.LBL_Player7Role = new System.Windows.Forms.Label();
+            this.LBL_Player8 = new System.Windows.Forms.Label();
+            this.LBL_Player8Role = new System.Windows.Forms.Label();
+            this.LBL_Player9 = new System.Windows.Forms.Label();
+            this.LBL_Player9Role = new System.Windows.Forms.Label();
+            this.PB_Image = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Playing)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Image)).BeginInit();
             this.SuspendLayout();
             // 
             // BTN_NewGame
@@ -59,21 +71,21 @@
             this.BTN_NewGame.UseVisualStyleBackColor = true;
             this.BTN_NewGame.Click += new System.EventHandler(this.BTN_NewGame_Click);
             // 
-            // pictureBox1
+            // PB_Playing
             // 
-            this.pictureBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.pictureBox1.Location = new System.Drawing.Point(57, 25);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(574, 391);
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
+            this.PB_Playing.BackColor = System.Drawing.SystemColors.Control;
+            this.PB_Playing.Location = new System.Drawing.Point(57, 25);
+            this.PB_Playing.Name = "PB_Playing";
+            this.PB_Playing.Size = new System.Drawing.Size(574, 404);
+            this.PB_Playing.TabIndex = 1;
+            this.PB_Playing.TabStop = false;
             // 
             // LBL_Player1
             // 
             this.LBL_Player1.AutoSize = true;
             this.LBL_Player1.BackColor = System.Drawing.SystemColors.Control;
             this.LBL_Player1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LBL_Player1.Location = new System.Drawing.Point(116, 147);
+            this.LBL_Player1.Location = new System.Drawing.Point(453, 124);
             this.LBL_Player1.Name = "LBL_Player1";
             this.LBL_Player1.Size = new System.Drawing.Size(107, 20);
             this.LBL_Player1.TabIndex = 2;
@@ -85,7 +97,7 @@
             this.LBL_Player2.AutoSize = true;
             this.LBL_Player2.BackColor = System.Drawing.SystemColors.Control;
             this.LBL_Player2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LBL_Player2.Location = new System.Drawing.Point(116, 270);
+            this.LBL_Player2.Location = new System.Drawing.Point(453, 182);
             this.LBL_Player2.Name = "LBL_Player2";
             this.LBL_Player2.Size = new System.Drawing.Size(107, 20);
             this.LBL_Player2.TabIndex = 3;
@@ -97,7 +109,7 @@
             this.LBL_Player3.AutoSize = true;
             this.LBL_Player3.BackColor = System.Drawing.SystemColors.Control;
             this.LBL_Player3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LBL_Player3.Location = new System.Drawing.Point(485, 147);
+            this.LBL_Player3.Location = new System.Drawing.Point(453, 242);
             this.LBL_Player3.Name = "LBL_Player3";
             this.LBL_Player3.Size = new System.Drawing.Size(107, 20);
             this.LBL_Player3.TabIndex = 4;
@@ -109,7 +121,7 @@
             this.LBL_Player4.AutoSize = true;
             this.LBL_Player4.BackColor = System.Drawing.SystemColors.Control;
             this.LBL_Player4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LBL_Player4.Location = new System.Drawing.Point(485, 270);
+            this.LBL_Player4.Location = new System.Drawing.Point(453, 295);
             this.LBL_Player4.Name = "LBL_Player4";
             this.LBL_Player4.Size = new System.Drawing.Size(107, 20);
             this.LBL_Player4.TabIndex = 5;
@@ -123,9 +135,9 @@
             this.LBL_PlayerHuman.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.LBL_PlayerHuman.Location = new System.Drawing.Point(271, 80);
             this.LBL_PlayerHuman.Name = "LBL_PlayerHuman";
-            this.LBL_PlayerHuman.Size = new System.Drawing.Size(153, 20);
+            this.LBL_PlayerHuman.Size = new System.Drawing.Size(150, 20);
             this.LBL_PlayerHuman.TabIndex = 6;
-            this.LBL_PlayerHuman.Text = "Human player Name";
+            this.LBL_PlayerHuman.Text = "HumanPlayer Name";
             this.LBL_PlayerHuman.Visible = false;
             // 
             // TXTBOX_PlayerHumanName
@@ -159,7 +171,7 @@
             this.LBL_LiberalLaws.AutoSize = true;
             this.LBL_LiberalLaws.BackColor = System.Drawing.SystemColors.Control;
             this.LBL_LiberalLaws.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LBL_LiberalLaws.Location = new System.Drawing.Point(275, 167);
+            this.LBL_LiberalLaws.Location = new System.Drawing.Point(271, 158);
             this.LBL_LiberalLaws.Name = "LBL_LiberalLaws";
             this.LBL_LiberalLaws.Size = new System.Drawing.Size(97, 20);
             this.LBL_LiberalLaws.TabIndex = 10;
@@ -171,7 +183,7 @@
             this.LBL_FacistLaws.AutoSize = true;
             this.LBL_FacistLaws.BackColor = System.Drawing.SystemColors.Control;
             this.LBL_FacistLaws.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LBL_FacistLaws.Location = new System.Drawing.Point(275, 240);
+            this.LBL_FacistLaws.Location = new System.Drawing.Point(271, 219);
             this.LBL_FacistLaws.Name = "LBL_FacistLaws";
             this.LBL_FacistLaws.Size = new System.Drawing.Size(93, 20);
             this.LBL_FacistLaws.TabIndex = 11;
@@ -183,7 +195,7 @@
             this.LBL_Player1Role.AutoSize = true;
             this.LBL_Player1Role.BackColor = System.Drawing.SystemColors.Control;
             this.LBL_Player1Role.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LBL_Player1Role.Location = new System.Drawing.Point(116, 167);
+            this.LBL_Player1Role.Location = new System.Drawing.Point(453, 144);
             this.LBL_Player1Role.Name = "LBL_Player1Role";
             this.LBL_Player1Role.Size = new System.Drawing.Size(98, 20);
             this.LBL_Player1Role.TabIndex = 12;
@@ -195,7 +207,7 @@
             this.LBL_Player2Role.AutoSize = true;
             this.LBL_Player2Role.BackColor = System.Drawing.SystemColors.Control;
             this.LBL_Player2Role.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LBL_Player2Role.Location = new System.Drawing.Point(116, 290);
+            this.LBL_Player2Role.Location = new System.Drawing.Point(453, 202);
             this.LBL_Player2Role.Name = "LBL_Player2Role";
             this.LBL_Player2Role.Size = new System.Drawing.Size(98, 20);
             this.LBL_Player2Role.TabIndex = 13;
@@ -207,7 +219,7 @@
             this.LBL_Player4Role.AutoSize = true;
             this.LBL_Player4Role.BackColor = System.Drawing.SystemColors.Control;
             this.LBL_Player4Role.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LBL_Player4Role.Location = new System.Drawing.Point(485, 290);
+            this.LBL_Player4Role.Location = new System.Drawing.Point(453, 315);
             this.LBL_Player4Role.Name = "LBL_Player4Role";
             this.LBL_Player4Role.Size = new System.Drawing.Size(98, 20);
             this.LBL_Player4Role.TabIndex = 14;
@@ -219,28 +231,28 @@
             this.LBL_Player3Role.AutoSize = true;
             this.LBL_Player3Role.BackColor = System.Drawing.SystemColors.Control;
             this.LBL_Player3Role.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LBL_Player3Role.Location = new System.Drawing.Point(485, 167);
+            this.LBL_Player3Role.Location = new System.Drawing.Point(453, 262);
             this.LBL_Player3Role.Name = "LBL_Player3Role";
             this.LBL_Player3Role.Size = new System.Drawing.Size(98, 20);
             this.LBL_Player3Role.TabIndex = 15;
             this.LBL_Player3Role.Text = "Player3 Role";
             this.LBL_Player3Role.Visible = false;
             // 
-            // LBL_HumanPlayerRole
+            // LBL_PlayerHumanRole
             // 
-            this.LBL_HumanPlayerRole.AutoSize = true;
-            this.LBL_HumanPlayerRole.BackColor = System.Drawing.SystemColors.Control;
-            this.LBL_HumanPlayerRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LBL_HumanPlayerRole.Location = new System.Drawing.Point(271, 100);
-            this.LBL_HumanPlayerRole.Name = "LBL_HumanPlayerRole";
-            this.LBL_HumanPlayerRole.Size = new System.Drawing.Size(141, 20);
-            this.LBL_HumanPlayerRole.TabIndex = 16;
-            this.LBL_HumanPlayerRole.Text = "HumanPlayer Role";
-            this.LBL_HumanPlayerRole.Visible = false;
+            this.LBL_PlayerHumanRole.AutoSize = true;
+            this.LBL_PlayerHumanRole.BackColor = System.Drawing.SystemColors.Control;
+            this.LBL_PlayerHumanRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LBL_PlayerHumanRole.Location = new System.Drawing.Point(271, 100);
+            this.LBL_PlayerHumanRole.Name = "LBL_PlayerHumanRole";
+            this.LBL_PlayerHumanRole.Size = new System.Drawing.Size(141, 20);
+            this.LBL_PlayerHumanRole.TabIndex = 16;
+            this.LBL_PlayerHumanRole.Text = "HumanPlayer Role";
+            this.LBL_PlayerHumanRole.Visible = false;
             // 
             // BTN_Continuation
             // 
-            this.BTN_Continuation.Location = new System.Drawing.Point(478, 361);
+            this.BTN_Continuation.Location = new System.Drawing.Point(477, 374);
             this.BTN_Continuation.Name = "BTN_Continuation";
             this.BTN_Continuation.Size = new System.Drawing.Size(114, 23);
             this.BTN_Continuation.TabIndex = 17;
@@ -249,14 +261,154 @@
             this.BTN_Continuation.Visible = false;
             this.BTN_Continuation.Click += new System.EventHandler(this.BTN_Continuation_Click);
             // 
+            // LBL_Player5Role
+            // 
+            this.LBL_Player5Role.AutoSize = true;
+            this.LBL_Player5Role.BackColor = System.Drawing.SystemColors.Control;
+            this.LBL_Player5Role.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LBL_Player5Role.Location = new System.Drawing.Point(271, 315);
+            this.LBL_Player5Role.Name = "LBL_Player5Role";
+            this.LBL_Player5Role.Size = new System.Drawing.Size(98, 20);
+            this.LBL_Player5Role.TabIndex = 18;
+            this.LBL_Player5Role.Text = "Player5 Role";
+            this.LBL_Player5Role.Visible = false;
+            // 
+            // LBL_Player5
+            // 
+            this.LBL_Player5.AutoSize = true;
+            this.LBL_Player5.BackColor = System.Drawing.SystemColors.Control;
+            this.LBL_Player5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LBL_Player5.Location = new System.Drawing.Point(271, 295);
+            this.LBL_Player5.Name = "LBL_Player5";
+            this.LBL_Player5.Size = new System.Drawing.Size(107, 20);
+            this.LBL_Player5.TabIndex = 19;
+            this.LBL_Player5.Text = "Player5 Name";
+            this.LBL_Player5.Visible = false;
+            // 
+            // LBL_Player6
+            // 
+            this.LBL_Player6.AutoSize = true;
+            this.LBL_Player6.BackColor = System.Drawing.SystemColors.Control;
+            this.LBL_Player6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LBL_Player6.Location = new System.Drawing.Point(103, 295);
+            this.LBL_Player6.Name = "LBL_Player6";
+            this.LBL_Player6.Size = new System.Drawing.Size(107, 20);
+            this.LBL_Player6.TabIndex = 20;
+            this.LBL_Player6.Text = "Player6 Name";
+            this.LBL_Player6.Visible = false;
+            // 
+            // LBL_Player6Role
+            // 
+            this.LBL_Player6Role.AutoSize = true;
+            this.LBL_Player6Role.BackColor = System.Drawing.SystemColors.Control;
+            this.LBL_Player6Role.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LBL_Player6Role.Location = new System.Drawing.Point(103, 315);
+            this.LBL_Player6Role.Name = "LBL_Player6Role";
+            this.LBL_Player6Role.Size = new System.Drawing.Size(98, 20);
+            this.LBL_Player6Role.TabIndex = 21;
+            this.LBL_Player6Role.Text = "Player6 Role";
+            this.LBL_Player6Role.Visible = false;
+            // 
+            // LBL_Player7
+            // 
+            this.LBL_Player7.AutoSize = true;
+            this.LBL_Player7.BackColor = System.Drawing.SystemColors.Control;
+            this.LBL_Player7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LBL_Player7.Location = new System.Drawing.Point(103, 242);
+            this.LBL_Player7.Name = "LBL_Player7";
+            this.LBL_Player7.Size = new System.Drawing.Size(107, 20);
+            this.LBL_Player7.TabIndex = 22;
+            this.LBL_Player7.Text = "Player7 Name";
+            this.LBL_Player7.Visible = false;
+            // 
+            // LBL_Player7Role
+            // 
+            this.LBL_Player7Role.AutoSize = true;
+            this.LBL_Player7Role.BackColor = System.Drawing.SystemColors.Control;
+            this.LBL_Player7Role.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LBL_Player7Role.Location = new System.Drawing.Point(103, 262);
+            this.LBL_Player7Role.Name = "LBL_Player7Role";
+            this.LBL_Player7Role.Size = new System.Drawing.Size(98, 20);
+            this.LBL_Player7Role.TabIndex = 23;
+            this.LBL_Player7Role.Text = "Player7 Role";
+            this.LBL_Player7Role.Visible = false;
+            // 
+            // LBL_Player8
+            // 
+            this.LBL_Player8.AutoSize = true;
+            this.LBL_Player8.BackColor = System.Drawing.SystemColors.Control;
+            this.LBL_Player8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LBL_Player8.Location = new System.Drawing.Point(103, 182);
+            this.LBL_Player8.Name = "LBL_Player8";
+            this.LBL_Player8.Size = new System.Drawing.Size(107, 20);
+            this.LBL_Player8.TabIndex = 24;
+            this.LBL_Player8.Text = "Player8 Name";
+            this.LBL_Player8.Visible = false;
+            // 
+            // LBL_Player8Role
+            // 
+            this.LBL_Player8Role.AutoSize = true;
+            this.LBL_Player8Role.BackColor = System.Drawing.SystemColors.Control;
+            this.LBL_Player8Role.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LBL_Player8Role.Location = new System.Drawing.Point(103, 202);
+            this.LBL_Player8Role.Name = "LBL_Player8Role";
+            this.LBL_Player8Role.Size = new System.Drawing.Size(98, 20);
+            this.LBL_Player8Role.TabIndex = 25;
+            this.LBL_Player8Role.Text = "Player8 Role";
+            this.LBL_Player8Role.Visible = false;
+            // 
+            // LBL_Player9
+            // 
+            this.LBL_Player9.AutoSize = true;
+            this.LBL_Player9.BackColor = System.Drawing.SystemColors.Control;
+            this.LBL_Player9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LBL_Player9.Location = new System.Drawing.Point(103, 124);
+            this.LBL_Player9.Name = "LBL_Player9";
+            this.LBL_Player9.Size = new System.Drawing.Size(107, 20);
+            this.LBL_Player9.TabIndex = 26;
+            this.LBL_Player9.Text = "Player9 Name";
+            this.LBL_Player9.Visible = false;
+            // 
+            // LBL_Player9Role
+            // 
+            this.LBL_Player9Role.AutoSize = true;
+            this.LBL_Player9Role.BackColor = System.Drawing.SystemColors.Control;
+            this.LBL_Player9Role.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LBL_Player9Role.Location = new System.Drawing.Point(103, 144);
+            this.LBL_Player9Role.Name = "LBL_Player9Role";
+            this.LBL_Player9Role.Size = new System.Drawing.Size(98, 20);
+            this.LBL_Player9Role.TabIndex = 27;
+            this.LBL_Player9Role.Text = "Player9 Role";
+            this.LBL_Player9Role.Visible = false;
+            // 
+            // PB_Image
+            // 
+            this.PB_Image.Image = global::Secret_Hitler.Properties.Resources.pic2771488;
+            this.PB_Image.Location = new System.Drawing.Point(57, 26);
+            this.PB_Image.Name = "PB_Image";
+            this.PB_Image.Size = new System.Drawing.Size(574, 403);
+            this.PB_Image.TabIndex = 28;
+            this.PB_Image.TabStop = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.PB_Image);
+            this.Controls.Add(this.LBL_Player9Role);
+            this.Controls.Add(this.LBL_Player9);
+            this.Controls.Add(this.LBL_Player8Role);
+            this.Controls.Add(this.LBL_Player8);
+            this.Controls.Add(this.LBL_Player7Role);
+            this.Controls.Add(this.LBL_Player7);
+            this.Controls.Add(this.LBL_Player6Role);
+            this.Controls.Add(this.LBL_Player6);
+            this.Controls.Add(this.LBL_Player5);
+            this.Controls.Add(this.LBL_Player5Role);
             this.Controls.Add(this.BTN_Continuation);
-            this.Controls.Add(this.LBL_HumanPlayerRole);
+            this.Controls.Add(this.LBL_PlayerHumanRole);
             this.Controls.Add(this.LBL_Player3Role);
             this.Controls.Add(this.LBL_Player4Role);
             this.Controls.Add(this.LBL_Player2Role);
@@ -271,12 +423,13 @@
             this.Controls.Add(this.LBL_Player3);
             this.Controls.Add(this.LBL_Player2);
             this.Controls.Add(this.LBL_Player1);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.PB_Playing);
             this.Controls.Add(this.BTN_NewGame);
             this.Name = "MainForm";
             this.Text = "Secret Hitler";
             this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Playing)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Image)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -285,7 +438,7 @@
         #endregion
 
         private System.Windows.Forms.Button BTN_NewGame;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox PB_Playing;
         private System.Windows.Forms.Label LBL_Player1;
         private System.Windows.Forms.Label LBL_Player2;
         private System.Windows.Forms.Label LBL_Player3;
@@ -300,8 +453,19 @@
         private System.Windows.Forms.Label LBL_Player2Role;
         private System.Windows.Forms.Label LBL_Player4Role;
         private System.Windows.Forms.Label LBL_Player3Role;
-        private System.Windows.Forms.Label LBL_HumanPlayerRole;
+        private System.Windows.Forms.Label LBL_PlayerHumanRole;
         private System.Windows.Forms.Button BTN_Continuation;
+        private System.Windows.Forms.Label LBL_Player5Role;
+        private System.Windows.Forms.Label LBL_Player5;
+        private System.Windows.Forms.Label LBL_Player6;
+        private System.Windows.Forms.Label LBL_Player6Role;
+        private System.Windows.Forms.Label LBL_Player7;
+        private System.Windows.Forms.Label LBL_Player7Role;
+        private System.Windows.Forms.Label LBL_Player8;
+        private System.Windows.Forms.Label LBL_Player8Role;
+        private System.Windows.Forms.Label LBL_Player9;
+        private System.Windows.Forms.Label LBL_Player9Role;
+        private System.Windows.Forms.PictureBox PB_Image;
     }
 }
 

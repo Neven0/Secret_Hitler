@@ -15,7 +15,11 @@ namespace Secret_Hitler
         public Settings()
         {
             InitializeComponent();
+
         }
+
+        TextBox[] textBoxes = new TextBox[5];
+        
 
         private void Settings_Load(object sender, EventArgs e)
         {
@@ -24,12 +28,33 @@ namespace Secret_Hitler
             TXTBOX_Player2Name.Text = Properties.Settings.Default.Player2Name;
             TXTBOX_Player3Name.Text = Properties.Settings.Default.Player3Name;
             TXTBOX_Player4Name.Text = Properties.Settings.Default.Player4Name;
+            TXTBOX_Player5Name.Text = Properties.Settings.Default.Player5Name;
+            TXTBOX_Player6Name.Text = Properties.Settings.Default.Player6Name;
+            TXTBOX_Player7Name.Text = Properties.Settings.Default.Player7Name;
+            TXTBOX_Player8Name.Text = Properties.Settings.Default.Player8Name;
+            TXTBOX_Player9Name.Text = Properties.Settings.Default.Player9Name;
+
+            textBoxes[0] = TXTBOX_Player5Name;
+            textBoxes[1] = TXTBOX_Player6Name;
+            textBoxes[2] = TXTBOX_Player7Name;
+            textBoxes[3] = TXTBOX_Player8Name;
+            textBoxes[4] = TXTBOX_Player9Name;
+
+            //Loading number of players from settings
+            NUM_PlayerCount.Value = Properties.Settings.Default.Number_Of_Players;
+            
+            //Enabling text boxes depending on number of AI players
+            TextBoxEnabler();
         }
+
+        
 
         private void BTN_OK_Click(object sender, EventArgs e)
         {
             //Checking that all AI players have names
-            if (TXTBOX_Player1Name.Text == "" || TXTBOX_Player2Name.Text == "" || TXTBOX_Player3Name.Text == "" || TXTBOX_Player4Name.Text == "")
+            if (TXTBOX_Player1Name.Text == "" || TXTBOX_Player2Name.Text == "" || TXTBOX_Player3Name.Text == "" || TXTBOX_Player4Name.Text == ""
+                || TXTBOX_Player5Name.Text == "" || TXTBOX_Player6Name.Text == "" || TXTBOX_Player7Name.Text == "" 
+                || TXTBOX_Player8Name.Text == "" || TXTBOX_Player9Name.Text == "")
             {
                 MessageBox.Show("Please enter names for all characters!");
                 return;
@@ -40,8 +65,43 @@ namespace Secret_Hitler
             Properties.Settings.Default.Player2Name = TXTBOX_Player2Name.Text;
             Properties.Settings.Default.Player3Name = TXTBOX_Player3Name.Text;
             Properties.Settings.Default.Player4Name = TXTBOX_Player4Name.Text;
+            Properties.Settings.Default.Player5Name = TXTBOX_Player5Name.Text;
+            Properties.Settings.Default.Player6Name = TXTBOX_Player6Name.Text;
+            Properties.Settings.Default.Player7Name = TXTBOX_Player7Name.Text;
+            Properties.Settings.Default.Player8Name = TXTBOX_Player8Name.Text;
+            Properties.Settings.Default.Player9Name = TXTBOX_Player9Name.Text;
+
+            Properties.Settings.Default.Number_Of_Players = Convert.ToInt32(NUM_PlayerCount.Value); 
 
             Close();
+        }
+
+        private void NUM_PlayerCount_ValueChanged(object sender, EventArgs e)
+        {
+            if (NUM_PlayerCount.Value<4)
+            {
+                MessageBox.Show("Minumum number of computer players is 4!");
+                NUM_PlayerCount.Value = 4;
+            }
+            else if (NUM_PlayerCount.Value>9)
+            {
+                MessageBox.Show("Maximum number of computer players is 9!");
+                NUM_PlayerCount.Value = 9;    
+            }
+            else TextBoxEnabler();
+        }
+
+        private void TextBoxEnabler()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                if (i >= NUM_PlayerCount.Value - 4)
+                {
+                    textBoxes[i].Enabled = false;
+                }
+                else textBoxes[i].Enabled = true;
+            }
+
         }
     }
 }

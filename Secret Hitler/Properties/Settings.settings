@@ -14,5 +14,23 @@
     <Setting Name="Player4Name" Type="System.String" Scope="User">
       <Value Profile="(Default)">Kai</Value>
     </Setting>
+    <Setting Name="Number_Of_Players" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="Player5Name" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Mia</Value>
+    </Setting>
+    <Setting Name="Player6Name" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Emma</Value>
+    </Setting>
+    <Setting Name="Player7Name" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Sofia</Value>
+    </Setting>
+    <Setting Name="Player8Name" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Marie</Value>
+    </Setting>
+    <Setting Name="Player9Name" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Luisa</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

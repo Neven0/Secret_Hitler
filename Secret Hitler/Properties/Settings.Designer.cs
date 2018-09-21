@@ -70,5 +70,77 @@ namespace Secret_Hitler.Properties {
                 this["Player4Name"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int Number_Of_Players {
+            get {
+                return ((int)(this["Number_Of_Players"]));
+            }
+            set {
+                this["Number_Of_Players"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Mia")]
+        public string Player5Name {
+            get {
+                return ((string)(this["Player5Name"]));
+            }
+            set {
+                this["Player5Name"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Emma")]
+        public string Player6Name {
+            get {
+                return ((string)(this["Player6Name"]));
+            }
+            set {
+                this["Player6Name"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Sofia")]
+        public string Player7Name {
+            get {
+                return ((string)(this["Player7Name"]));
+            }
+            set {
+                this["Player7Name"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Marie")]
+        public string Player8Name {
+            get {
+                return ((string)(this["Player8Name"]));
+            }
+            set {
+                this["Player8Name"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Luisa")]
+        public string Player9Name {
+            get {
+                return ((string)(this["Player9Name"]));
+            }
+            set {
+                this["Player9Name"] = value;
+            }
+        }
     }
 }
