@@ -1,0 +1,18 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Secret_Hitler.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Player1Name" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Fritz</Value>
+    </Setting>
+    <Setting Name="Player2Name" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Norbert</Value>
+    </Setting>
+    <Setting Name="Player3Name" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Lukas</Value>
+    </Setting>
+    <Setting Name="Player4Name" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Kai</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
