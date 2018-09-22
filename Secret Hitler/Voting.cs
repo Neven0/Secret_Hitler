@@ -14,20 +14,20 @@ namespace Secret_Hitler
     {
         public bool Choice { get; set; }
 
-        public Voting(Players[] playersArray)
+        public Voting(List<Players> playersList)
         {
             InitializeComponent();
             //Writing the label regarding who the current president is
-            for (int i = 0; i < playersArray.Length; i++)
+            for (int i = 0; i < playersList.Count; i++)
             {
                 
-                if (playersArray[0].IsNominated==true)
+                if (playersList[0].IsNominated==true)
                 {
                     label1.Text = "You have been nominated for chancellor. How do you vote?";
                 }
-                else if (playersArray[i].IsNominated==true)
+                else if (playersList[i].IsNominated==true)
                 {
-                    label1.Text = playersArray[i].Name + " has been nominated for chancellor. How do you vote?";
+                    label1.Text = playersList[i].Name + " has been nominated for chancellor. How do you vote?";
                     break;
                 }
 

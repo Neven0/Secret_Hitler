@@ -35,11 +35,11 @@
             this.BTN_OK = new System.Windows.Forms.Button();
             this.NUM_PlayerCount = new System.Windows.Forms.NumericUpDown();
             this.GRPBOX_PlayerNames = new System.Windows.Forms.GroupBox();
-            this.TXTBOX_Player5Name = new System.Windows.Forms.TextBox();
-            this.TXTBOX_Player6Name = new System.Windows.Forms.TextBox();
-            this.TXTBOX_Player7Name = new System.Windows.Forms.TextBox();
-            this.TXTBOX_Player8Name = new System.Windows.Forms.TextBox();
             this.TXTBOX_Player9Name = new System.Windows.Forms.TextBox();
+            this.TXTBOX_Player8Name = new System.Windows.Forms.TextBox();
+            this.TXTBOX_Player7Name = new System.Windows.Forms.TextBox();
+            this.TXTBOX_Player6Name = new System.Windows.Forms.TextBox();
+            this.TXTBOX_Player5Name = new System.Windows.Forms.TextBox();
             this.LBL_AIPlayerCount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_PlayerCount)).BeginInit();
             this.GRPBOX_PlayerNames.SuspendLayout();
@@ -87,7 +87,7 @@
             // 
             this.NUM_PlayerCount.Location = new System.Drawing.Point(380, 40);
             this.NUM_PlayerCount.Name = "NUM_PlayerCount";
-            this.NUM_PlayerCount.Size = new System.Drawing.Size(28, 20);
+            this.NUM_PlayerCount.Size = new System.Drawing.Size(35, 20);
             this.NUM_PlayerCount.TabIndex = 6;
             this.NUM_PlayerCount.ValueChanged += new System.EventHandler(this.NUM_PlayerCount_ValueChanged);
             // 
@@ -109,26 +109,12 @@
             this.GRPBOX_PlayerNames.TabStop = false;
             this.GRPBOX_PlayerNames.Text = "Computer player names";
             // 
-            // TXTBOX_Player5Name
+            // TXTBOX_Player9Name
             // 
-            this.TXTBOX_Player5Name.Location = new System.Drawing.Point(7, 101);
-            this.TXTBOX_Player5Name.Name = "TXTBOX_Player5Name";
-            this.TXTBOX_Player5Name.Size = new System.Drawing.Size(117, 20);
-            this.TXTBOX_Player5Name.TabIndex = 4;
-            // 
-            // TXTBOX_Player6Name
-            // 
-            this.TXTBOX_Player6Name.Location = new System.Drawing.Point(171, 100);
-            this.TXTBOX_Player6Name.Name = "TXTBOX_Player6Name";
-            this.TXTBOX_Player6Name.Size = new System.Drawing.Size(117, 20);
-            this.TXTBOX_Player6Name.TabIndex = 5;
-            // 
-            // TXTBOX_Player7Name
-            // 
-            this.TXTBOX_Player7Name.Location = new System.Drawing.Point(7, 141);
-            this.TXTBOX_Player7Name.Name = "TXTBOX_Player7Name";
-            this.TXTBOX_Player7Name.Size = new System.Drawing.Size(117, 20);
-            this.TXTBOX_Player7Name.TabIndex = 6;
+            this.TXTBOX_Player9Name.Location = new System.Drawing.Point(89, 176);
+            this.TXTBOX_Player9Name.Name = "TXTBOX_Player9Name";
+            this.TXTBOX_Player9Name.Size = new System.Drawing.Size(117, 20);
+            this.TXTBOX_Player9Name.TabIndex = 8;
             // 
             // TXTBOX_Player8Name
             // 
@@ -137,12 +123,26 @@
             this.TXTBOX_Player8Name.Size = new System.Drawing.Size(118, 20);
             this.TXTBOX_Player8Name.TabIndex = 7;
             // 
-            // TXTBOX_Player9Name
+            // TXTBOX_Player7Name
             // 
-            this.TXTBOX_Player9Name.Location = new System.Drawing.Point(89, 176);
-            this.TXTBOX_Player9Name.Name = "TXTBOX_Player9Name";
-            this.TXTBOX_Player9Name.Size = new System.Drawing.Size(117, 20);
-            this.TXTBOX_Player9Name.TabIndex = 8;
+            this.TXTBOX_Player7Name.Location = new System.Drawing.Point(7, 141);
+            this.TXTBOX_Player7Name.Name = "TXTBOX_Player7Name";
+            this.TXTBOX_Player7Name.Size = new System.Drawing.Size(117, 20);
+            this.TXTBOX_Player7Name.TabIndex = 6;
+            // 
+            // TXTBOX_Player6Name
+            // 
+            this.TXTBOX_Player6Name.Location = new System.Drawing.Point(171, 100);
+            this.TXTBOX_Player6Name.Name = "TXTBOX_Player6Name";
+            this.TXTBOX_Player6Name.Size = new System.Drawing.Size(117, 20);
+            this.TXTBOX_Player6Name.TabIndex = 5;
+            // 
+            // TXTBOX_Player5Name
+            // 
+            this.TXTBOX_Player5Name.Location = new System.Drawing.Point(7, 101);
+            this.TXTBOX_Player5Name.Name = "TXTBOX_Player5Name";
+            this.TXTBOX_Player5Name.Size = new System.Drawing.Size(117, 20);
+            this.TXTBOX_Player5Name.TabIndex = 4;
             // 
             // LBL_AIPlayerCount
             // 

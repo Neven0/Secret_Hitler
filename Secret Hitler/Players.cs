@@ -26,6 +26,7 @@ namespace Secret_Hitler
             IsChancellor = false;
             IsNominated = false;
         }
+
     }
 
     

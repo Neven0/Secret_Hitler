@@ -14,7 +14,10 @@ namespace Secret_Hitler
     {
         public int Selected { get; set; }
 
-        public ChooseChancellor(Players[] playersArray)
+        RadioButton[] radioButtons = new RadioButton[5];
+        
+
+        public ChooseChancellor(List<Players> playersArray)
         {
             InitializeComponent();
 
@@ -24,6 +27,22 @@ namespace Secret_Hitler
             RADBTN_Player3.Text = playersArray[3].Name;
             RADBTN_Player4.Text = playersArray[4].Name;
             RADBTN_Player1.Select();
+
+            radioButtons[0] = RADBTN_Player5;
+            radioButtons[1] = RADBTN_Player6;
+            radioButtons[2] = RADBTN_Player7;
+            radioButtons[3] = RADBTN_Player8;
+            radioButtons[4] = RADBTN_Player9;
+
+            if (playersArray.Count>=6)
+            {
+                for (int i = 5; i < playersArray.Count; i++)
+                {
+                    radioButtons[i-5].Text = playersArray[i].Name;
+                    radioButtons[i-5].Visible = true;
+                }
+            }
+            
         }
 
         private void BTN_Nominate_Click(object sender, EventArgs e)
@@ -46,7 +65,20 @@ namespace Secret_Hitler
             {
                 Selected = 3;
             }
-            else Selected = 4;
+            else if (RADBTN_Player4.Checked==true)
+            {
+                Selected = 4;
+            }
+            else
+            {
+                for (int i = 0; i < radioButtons.Length; i++)
+                {
+                    if (radioButtons[i].Checked==true)
+                    {
+                        Selected = 5 + i;
+                    }
+                }
+            }
         }
     }
 }

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-//TODO: Set all arrays to lists. Check all forms for compatibility, for loops and new game button
+using System.Drawing;
+
 namespace Secret_Hitler
 {
     public partial class MainForm : Form
@@ -14,17 +15,21 @@ namespace Secret_Hitler
         //Creating four arrays for players, labels and policy cards
         List<string> Policies = new List<string>();
         List<Players> PlayersArray = new List<Players>();
-        Label[] LabelNames = new Label[Properties.Settings.Default.Number_Of_Players+1];
-        Label[] LabelRoles = new Label[Properties.Settings.Default.Number_Of_Players+1];
+        List<Label> LabelNames = new List<Label>();
+        List<Label> LabelRoles = new List<Label>();
 
         //List for discarded policies and policy count 
         int LiberalPolicies;
         int FascistPolicies;
         List<string> DiscardedPolicies = new List<string>();
 
-        private int EventStage = 0;
+        //Event stage to go through events vial button click
+        int EventStage = 0;
 
-        //Create new random object for all needs
+        //Round counter to... count rounds of course
+        int RoundCounter;
+
+        //Create new random object for all random needs
         Random Rand = new Random();
 
         private void Form1_Load(object sender, EventArgs e)
@@ -49,8 +54,8 @@ namespace Secret_Hitler
             BTN_Continuation.Enabled = true;
 
             //Setting policy number, works also as resetting them and setting the label
-            LiberalPolicies = 5;
-            FascistPolicies = 5;
+            LiberalPolicies = 0;
+            FascistPolicies = 0;
             LBL_FacistLaws.Text = "Fascist Laws - 0";
             LBL_LiberalLaws.Text = "Liberal Laws - 0";
 
@@ -61,56 +66,25 @@ namespace Secret_Hitler
                 else Policies.Add("Fascist");
 
             }
+            //Setting the counter to 1, updating the label
+            RoundCounter = 1;
+            LBL_RoundCounter.Text = "Round: " + RoundCounter.ToString();
+            //Shuffle the policy list
             Policies.Shuffle();
+            //Give roles to players
             GiveRoles();
+            //Send the "Secret Hitler" image to the back, so it's not visible
             PB_Image.SendToBack();
+            //Making round counter label visible after image is sent to back
+            LBL_RoundCounter.Visible = true;
+            //Enable to continueation button
+            BTN_Continuation.Visible = true;
+            //Start the game
             StartGame();
         }
 
         private void PlayersAndLabelsSetUp()
-        {/*
-            //Creating classes for all players
-            Players Player1 = new Players(Properties.Settings.Default.Player1Name);
-            Players Player2 = new Players(Properties.Settings.Default.Player2Name);
-            Players Player3 = new Players(Properties.Settings.Default.Player3Name);
-            Players Player4 = new Players(Properties.Settings.Default.Player4Name);
-            Players PlayerHuman = new Players(TXTBOX_PlayerHumanName.Text);
-
-            //Filling the player array
-            PlayersArray[0] = PlayerHuman;
-            PlayersArray[1] = Player1;
-            PlayersArray[2] = Player2;
-            PlayersArray[3] = Player3;
-            PlayersArray[4] = Player4;
-
-            //Putting label names in label name array
-            LabelNames[0] = LBL_PlayerHuman;
-            LabelNames[1] = LBL_Player1;
-            LabelNames[2] = LBL_Player2;
-            LabelNames[3] = LBL_Player3;
-            LabelNames[4] = LBL_Player4;
-
-            //Writing names of players on labels
-            for (int i = 0; i < LabelNames.Length; i++)
-            {
-                LabelNames[i].Text = PlayersArray[i].Name;
-            }
-
-            //Filling label role array with labels
-            LabelRoles[0] = LBL_PlayerHumanRole;
-            LabelRoles[1] = LBL_Player1Role;
-            LabelRoles[2] = LBL_Player2Role;
-            LabelRoles[3] = LBL_Player3Role;
-            LabelRoles[4] = LBL_Player4Role;
-
-            //Enabling label visibility
-            LBL_Player1.Visible = true;
-            LBL_Player2.Visible = true;
-            LBL_Player3.Visible = true;
-            LBL_Player4.Visible = true;
-            LBL_PlayerHuman.Visible = true;
-            LBL_LiberalLaws.Visible = true;
-            LBL_FacistLaws.Visible = true;*/
+        {
 
             //Creating objects of minimum 5 players
             Players PlayerHuman = new Players(TXTBOX_PlayerHumanName.Text);
@@ -119,42 +93,41 @@ namespace Secret_Hitler
             Players Player3 = new Players(Properties.Settings.Default.Player3Name);
             Players Player4 = new Players(Properties.Settings.Default.Player4Name);
 
-            //Placing human player and index 0 at all arrays
-            LabelRoles[0] = LBL_PlayerHumanRole;
-            PlayersArray[0] = PlayerHuman;
-            LabelNames[0] = LBL_PlayerHuman;
-
+            //Placing human player and index 0 at all lists
+            LabelRoles.Add(LBL_PlayerHumanRole);
+            PlayersArray.Add(PlayerHuman);
+            LabelNames.Add(LBL_PlayerHuman);
 
             //Enabling label visibility for human player and laws
             LBL_PlayerHuman.Visible = true;
             LBL_LiberalLaws.Visible = true;
             LBL_FacistLaws.Visible = true;
 
+            //Filling the player list with minimum players
+            PlayersArray.Add(Player1);
+            PlayersArray.Add(Player2);
+            PlayersArray.Add(Player3);
+            PlayersArray.Add(Player4);
+
             if (Properties.Settings.Default.Number_Of_Players==4)
             {
-                //Filling the player array
-                PlayersArray[1] = Player1;
-                PlayersArray[2] = Player2;
-                PlayersArray[3] = Player3;
-                PlayersArray[4] = Player4;
-
-                //Putting label names in label name array
-                LabelNames[1] = LBL_Player2;
-                LabelNames[2] = LBL_Player3;
-                LabelNames[3] = LBL_Player7;
-                LabelNames[4] = LBL_Player8;
+                //Putting label names in label name list
+                LabelNames.Add(LBL_Player2);
+                LabelNames.Add(LBL_Player3);
+                LabelNames.Add(LBL_Player7);
+                LabelNames.Add(LBL_Player8);
 
                 //Writing names of players on labels
-                for (int i = 0; i < LabelNames.Length; i++)
+                for (int i = 0; i < LabelNames.Count; i++)
                 {
                     LabelNames[i].Text = PlayersArray[i].Name;
                 }
 
-                //Filling label role array with labels
-                LabelRoles[1] = LBL_Player2Role;
-                LabelRoles[2] = LBL_Player3Role;
-                LabelRoles[3] = LBL_Player7Role;
-                LabelRoles[4] = LBL_Player8Role;
+                //Filling label role list with labels
+                LabelRoles.Add(LBL_Player2Role);
+                LabelRoles.Add(LBL_Player3Role);
+                LabelRoles.Add(LBL_Player7Role);
+                LabelRoles.Add(LBL_Player8Role);
 
                 //Enabling label visibility for AI
                 LBL_Player2.Visible = true;
@@ -167,32 +140,28 @@ namespace Secret_Hitler
             {
                 Players Player5 = new Players(Properties.Settings.Default.Player5Name);
 
-                //Filling the player array
-                PlayersArray[1] = Player1;
-                PlayersArray[2] = Player2;
-                PlayersArray[3] = Player3;
-                PlayersArray[4] = Player4;
-                PlayersArray[5] = Player5;
+                //Filling the player list
+                PlayersArray.Add(Player5);
 
-                //Putting label names in label name array
-                LabelNames[1] = LBL_Player2;
-                LabelNames[2] = LBL_Player3;
-                LabelNames[3] = LBL_Player5;
-                LabelNames[4] = LBL_Player7;
-                LabelNames[5] = LBL_Player8;
+                //Putting label names in label name list
+                LabelNames.Add(LBL_Player2);
+                LabelNames.Add(LBL_Player3);
+                LabelNames.Add(LBL_Player5);
+                LabelNames.Add(LBL_Player7);
+                LabelNames.Add(LBL_Player8);
 
                 //Writing names of players on labels
-                for (int i = 0; i < LabelNames.Length; i++)
+                for (int i = 0; i < LabelNames.Count; i++)
                 {
                     LabelNames[i].Text = PlayersArray[i].Name;
                 }
 
-                //Filling label role array with labels
-                LabelRoles[1] = LBL_Player2Role;
-                LabelRoles[2] = LBL_Player3Role;
-                LabelRoles[3] = LBL_Player5Role;
-                LabelRoles[4] = LBL_Player7Role;
-                LabelRoles[5] = LBL_Player8Role;
+                //Filling label role list with labels
+                LabelRoles.Add(LBL_Player2Role);
+                LabelRoles.Add(LBL_Player3Role);
+                LabelRoles.Add(LBL_Player5Role);
+                LabelRoles.Add(LBL_Player7Role);
+                LabelRoles.Add(LBL_Player8Role);
 
                 //Enabling label visibility for AI
                 LBL_Player2.Visible = true;
@@ -207,35 +176,31 @@ namespace Secret_Hitler
                 Players Player5 = new Players(Properties.Settings.Default.Player5Name);
                 Players Player6 = new Players(Properties.Settings.Default.Player6Name);
 
-                //Filling the player array
-                PlayersArray[1] = Player1;
-                PlayersArray[2] = Player2;
-                PlayersArray[3] = Player3;
-                PlayersArray[4] = Player4;
-                PlayersArray[5] = Player5;
-                PlayersArray[6] = Player6;
+                //Filling the player list
+                PlayersArray.Add(Player5);
+                PlayersArray.Add(Player6);
 
-                //Putting label names in label name array
-                LabelNames[1] = LBL_Player1;
-                LabelNames[2] = LBL_Player2;
-                LabelNames[3] = LBL_Player3;
-                LabelNames[4] = LBL_Player7;
-                LabelNames[5] = LBL_Player8;
-                LabelNames[6] = LBL_Player9;
+                //Putting label names in label name list
+                LabelNames.Add(LBL_Player1);
+                LabelNames.Add(LBL_Player2);
+                LabelNames.Add(LBL_Player3);
+                LabelNames.Add(LBL_Player7);
+                LabelNames.Add(LBL_Player8);
+                LabelNames.Add(LBL_Player9);
 
                 //Writing names of players on labels
-                for (int i = 0; i < LabelNames.Length; i++)
+                for (int i = 0; i < LabelNames.Count; i++)
                 {
                     LabelNames[i].Text = PlayersArray[i].Name;
                 }
 
-                //Filling label role array with labels
-                LabelRoles[1] = LBL_Player1Role;
-                LabelRoles[2] = LBL_Player2Role;
-                LabelRoles[3] = LBL_Player3Role;
-                LabelRoles[4] = LBL_Player7Role;
-                LabelRoles[5] = LBL_Player8Role;
-                LabelRoles[6] = LBL_Player9Role;
+                //Filling label role list with labels
+                LabelRoles.Add(LBL_Player1Role);
+                LabelRoles.Add(LBL_Player2Role);
+                LabelRoles.Add(LBL_Player3Role);
+                LabelRoles.Add(LBL_Player7Role);
+                LabelRoles.Add(LBL_Player8Role);
+                LabelRoles.Add(LBL_Player9Role);
 
                 //Enabling label visibility for AI
                 LBL_Player1.Visible = true;
@@ -251,38 +216,34 @@ namespace Secret_Hitler
                 Players Player6 = new Players(Properties.Settings.Default.Player6Name);
                 Players Player7 = new Players(Properties.Settings.Default.Player7Name);
 
-                //Filling the player array
-                PlayersArray[1] = Player1;
-                PlayersArray[2] = Player2;
-                PlayersArray[3] = Player3;
-                PlayersArray[4] = Player4;
-                PlayersArray[5] = Player5;
-                PlayersArray[6] = Player6;
-                PlayersArray[7] = Player7;
+                //Filling the player list
+                PlayersArray.Add(Player5);
+                PlayersArray.Add(Player6);
+                PlayersArray.Add(Player7);
 
-                //Putting label names in label name array
-                LabelNames[1] = LBL_Player1;
-                LabelNames[2] = LBL_Player2;
-                LabelNames[3] = LBL_Player3;
-                LabelNames[4] = LBL_Player5;
-                LabelNames[5] = LBL_Player7;
-                LabelNames[6] = LBL_Player8;
-                LabelNames[7] = LBL_Player9;
+                //Putting label names in label name list
+                LabelNames.Add(LBL_Player1);
+                LabelNames.Add(LBL_Player2);
+                LabelNames.Add(LBL_Player3);
+                LabelNames.Add(LBL_Player5);
+                LabelNames.Add(LBL_Player7);
+                LabelNames.Add(LBL_Player8);
+                LabelNames.Add(LBL_Player9);
 
                 //Writing names of players on labels
-                for (int i = 0; i < LabelNames.Length; i++)
+                for (int i = 0; i < LabelNames.Count; i++)
                 {
                     LabelNames[i].Text = PlayersArray[i].Name;
                 }
 
-                //Filling label role array with labels
-                LabelRoles[1] = LBL_Player1Role;
-                LabelRoles[2] = LBL_Player2Role;
-                LabelRoles[3] = LBL_Player3Role;
-                LabelRoles[4] = LBL_Player5Role;
-                LabelRoles[5] = LBL_Player7Role;
-                LabelRoles[6] = LBL_Player8Role;
-                LabelRoles[7] = LBL_Player9Role;
+                //Filling label role list with labels
+                LabelRoles.Add(LBL_Player1Role);
+                LabelRoles.Add(LBL_Player2Role);
+                LabelRoles.Add(LBL_Player3Role);
+                LabelRoles.Add(LBL_Player5Role);
+                LabelRoles.Add(LBL_Player7Role);
+                LabelRoles.Add(LBL_Player8Role);
+                LabelRoles.Add(LBL_Player9Role);
 
                 //Enabling label visibility for AI
                 LBL_Player1.Visible = true;
@@ -301,41 +262,37 @@ namespace Secret_Hitler
                 Players Player7 = new Players(Properties.Settings.Default.Player7Name);
                 Players Player8 = new Players(Properties.Settings.Default.Player8Name);
 
-                //Filling the player array
-                PlayersArray[1] = Player1;
-                PlayersArray[2] = Player2;
-                PlayersArray[3] = Player3;
-                PlayersArray[4] = Player4;
-                PlayersArray[5] = Player5;
-                PlayersArray[6] = Player6;
-                PlayersArray[7] = Player7;
-                PlayersArray[8] = Player8;
+                //Filling the player list
+                PlayersArray.Add(Player5);
+                PlayersArray.Add(Player6);
+                PlayersArray.Add(Player7);
+                PlayersArray.Add(Player8);
 
-                //Putting label names in label name array
-                LabelNames[1] = LBL_Player1;
-                LabelNames[2] = LBL_Player2;
-                LabelNames[3] = LBL_Player3;
-                LabelNames[4] = LBL_Player4;
-                LabelNames[5] = LBL_Player6;
-                LabelNames[6] = LBL_Player7;
-                LabelNames[7] = LBL_Player8;
-                LabelNames[8] = LBL_Player9;
+                //Putting label names in label name list
+                LabelNames.Add(LBL_Player1);
+                LabelNames.Add(LBL_Player2);
+                LabelNames.Add(LBL_Player3);
+                LabelNames.Add(LBL_Player4);
+                LabelNames.Add(LBL_Player6);
+                LabelNames.Add(LBL_Player7);
+                LabelNames.Add(LBL_Player8);
+                LabelNames.Add(LBL_Player9);
 
                 //Writing names of players on labels
-                for (int i = 0; i < LabelNames.Length; i++)
+                for (int i = 0; i < LabelNames.Count; i++)
                 {
                     LabelNames[i].Text = PlayersArray[i].Name;
                 }
 
-                //Filling label role array with labels
-                LabelRoles[1] = LBL_Player1Role;
-                LabelRoles[2] = LBL_Player2Role;
-                LabelRoles[3] = LBL_Player3Role;
-                LabelRoles[4] = LBL_Player4Role;
-                LabelRoles[5] = LBL_Player6Role;
-                LabelRoles[6] = LBL_Player7Role;
-                LabelRoles[7] = LBL_Player8Role;
-                LabelRoles[8] = LBL_Player9Role;
+                //Filling label role list with labels
+                LabelRoles.Add(LBL_Player1Role);
+                LabelRoles.Add(LBL_Player2Role);
+                LabelRoles.Add(LBL_Player3Role);
+                LabelRoles.Add(LBL_Player4Role);
+                LabelRoles.Add(LBL_Player6Role);
+                LabelRoles.Add(LBL_Player7Role);
+                LabelRoles.Add(LBL_Player8Role);
+                LabelRoles.Add(LBL_Player9Role);
 
                 //Enabling label visibility for AI
                 LBL_Player1.Visible = true;
@@ -355,44 +312,40 @@ namespace Secret_Hitler
                 Players Player8 = new Players(Properties.Settings.Default.Player8Name);
                 Players Player9 = new Players(Properties.Settings.Default.Player9Name);
 
-                //Filling the player array
-                PlayersArray[1] = Player1;
-                PlayersArray[2] = Player2;
-                PlayersArray[3] = Player3;
-                PlayersArray[4] = Player4;
-                PlayersArray[5] = Player5;
-                PlayersArray[6] = Player6;
-                PlayersArray[7] = Player7;
-                PlayersArray[8] = Player8;
-                PlayersArray[9] = Player9;
+                //Filling the player list
+                PlayersArray.Add(Player5);
+                PlayersArray.Add(Player6);
+                PlayersArray.Add(Player7);
+                PlayersArray.Add(Player8);
+                PlayersArray.Add(Player9);
 
-                //Putting label names in label name array
-                LabelNames[1] = LBL_Player1;
-                LabelNames[2] = LBL_Player2;
-                LabelNames[3] = LBL_Player3;
-                LabelNames[4] = LBL_Player4;
-                LabelNames[5] = LBL_Player5;
-                LabelNames[6] = LBL_Player6;
-                LabelNames[7] = LBL_Player7;
-                LabelNames[8] = LBL_Player8;
-                LabelNames[9] = LBL_Player9;
+                //Putting label names in label name list
+                LabelNames.Add(LBL_Player1);
+                LabelNames.Add(LBL_Player2);
+                LabelNames.Add(LBL_Player3);
+                LabelNames.Add(LBL_Player4);
+                LabelNames.Add(LBL_Player5);
+                LabelNames.Add(LBL_Player6);
+                LabelNames.Add(LBL_Player7);
+                LabelNames.Add(LBL_Player8);
+                LabelNames.Add(LBL_Player9);
 
                 //Writing names of players on labels
-                for (int i = 0; i < LabelNames.Length; i++)
+                for (int i = 0; i < LabelNames.Count; i++)
                 {
                     LabelNames[i].Text = PlayersArray[i].Name;
                 }
 
-                //Filling label role array with labels
-                LabelRoles[1] = LBL_Player1Role;
-                LabelRoles[2] = LBL_Player2Role;
-                LabelRoles[3] = LBL_Player3Role;
-                LabelRoles[4] = LBL_Player4Role;
-                LabelRoles[5] = LBL_Player5Role;
-                LabelRoles[6] = LBL_Player6Role;
-                LabelRoles[7] = LBL_Player7Role;
-                LabelRoles[8] = LBL_Player8Role;
-                LabelRoles[9] = LBL_Player9Role;
+                //Filling label role list with labels
+                LabelRoles.Add(LBL_Player1Role);
+                LabelRoles.Add(LBL_Player2Role);
+                LabelRoles.Add(LBL_Player3Role);
+                LabelRoles.Add(LBL_Player4Role);
+                LabelRoles.Add(LBL_Player5Role);
+                LabelRoles.Add(LBL_Player6Role);
+                LabelRoles.Add(LBL_Player7Role);
+                LabelRoles.Add(LBL_Player8Role);
+                LabelRoles.Add(LBL_Player9Role);
 
                 //Enabling label visibility for AI
                 LBL_Player1.Visible = true;
@@ -416,7 +369,6 @@ namespace Secret_Hitler
             //give president
             GivePresident();
             BTN_Continuation.Text = "Choose chancellor";
-            BTN_Continuation.Visible = true;
         }
 
 
@@ -441,7 +393,7 @@ namespace Secret_Hitler
             }
             //Random votes for AI players
             int rand;
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < Properties.Settings.Default.Number_Of_Players; i++)
             {
                 //Random has been set from max value 1 to 2 because too many times, 0 would be drawn
                 rand=Rand.Next(0, 2);
@@ -455,26 +407,42 @@ namespace Secret_Hitler
                 }
             }
             //Message to player when voting ends
-            if (VoteNo>VoteYes)
+            if (VoteNo > VoteYes)
             {   //Restart the cycle if majority vote is no
-                MessageBox.Show("Vote no won by " + VoteNo.ToString() + " to " + VoteYes.ToString() + ". President to be moved to next player.");
+                //MessageBox.Show("Vote no won by " + VoteNo.ToString() + " to " + VoteYes.ToString() + ". President to be moved to next player.");
+
+                RTXTBOX_InfoLog.AppendText("Vote no won by " + VoteNo.ToString() + " to " + VoteYes.ToString() + 
+                    ". President to be moved to next player." + Environment.NewLine + Environment.NewLine, Color.Red);
+                StartGame();
+            }
+            else if (VoteNo == VoteYes)
+            {
+                //MessageBox.Show("Vote ended in a tie. Presidency is moved to next player.");
+                RTXTBOX_InfoLog.AppendText("Vote ended in a tie. Presidency is moved to next player."+Environment.NewLine + Environment.NewLine,Color.Red);
                 StartGame();
             }
             else
             {
-                MessageBox.Show("Vote yes won by " + VoteYes.ToString() + " to " + VoteNo.ToString());
+                //MessageBox.Show("Vote yes won by " + VoteYes.ToString() + " to " + VoteNo.ToString());
+                RTXTBOX_InfoLog.AppendText("Vote yes won by " + VoteYes.ToString() + " to " + 
+                    VoteNo.ToString() + Environment.NewLine + Environment.NewLine, Color.Green);
                 EventStage = 2;
                 BTN_Continuation.Text = "President Discard";
-            }
-            //If vote passed, nominated player is the chancellor
-            for (int i = 0; i < PlayersArray.Length; i++)
-            {
-                if (PlayersArray[i].IsNominated==true)
+
+                //If vote passed, nominated player is the chancellor
+                for (int i = 0; i < PlayersArray.Count; i++)
                 {
-                    PlayersArray[i].IsNominated = false;
-                    PlayersArray[i].IsChancellor = true;
+                    if (PlayersArray[i].IsNominated == true)
+                    {
+                        PlayersArray[i].IsNominated = false;
+                        PlayersArray[i].IsChancellor = true;
+                        LabelRoles[i].Text = "Chancellor";
+                        LabelRoles[i].Visible = true;
+                        break;
+                    }
                 }
             }
+            
         }
 
         private void ChooseChancellor()
@@ -490,21 +458,35 @@ namespace Secret_Hitler
             else //If AI is president, nominate a random chancellor
             {
                 REDO:
-                int choice = Rand.Next(0, 5);
+                int choice = Rand.Next(0, PlayersArray.Count);
                 if (PlayersArray[choice].IsPresident==true)
                 {
                     goto REDO;
                 }
                 PlayersArray[choice].IsNominated = true;
-                MessageBox.Show(PlayersArray[choice].Name + " has been nominated!");
+                //MessageBox.Show(PlayersArray[choice].Name + " has been nominated!");
+                if (PlayersArray[0].IsNominated==true)
+                {
+                    RTXTBOX_InfoLog.AppendText("You have been nominated!" + Environment.NewLine + Environment.NewLine,Color.Green);
+                }
+                RTXTBOX_InfoLog.AppendText(PlayersArray[choice].Name + " has been nominated!" + Environment.NewLine + Environment.NewLine);
             }
         }
 
         private void GivePresident()
         {
             EventStage = 0;
+
+            //Reset role labels, chancellor and nomination values for all players
+            for (int i = 0; i < PlayersArray.Count; i++)
+            {
+                PlayersArray[i].IsNominated = false;
+                PlayersArray[i].IsChancellor = false;
+                LabelRoles[i].Text = "";
+                LabelRoles[i].Visible = false;
+            }
             //check if president already exists
-            bool PresidentExists= CheckPresident();
+            bool PresidentExists = CheckPresident();
             if (PresidentExists==false)
             {
                 //If president doesn't exist, give it to first player
@@ -513,29 +495,33 @@ namespace Secret_Hitler
                 LabelRoles[0].Visible = true;
                 return;
             }
-            for (int i = 0; i < PlayersArray.Length; i++)
+
+            //If president is last player, give it to the first and edit role labels
+            if (PlayersArray[PlayersArray.Count - 1].IsPresident == true)
             {
-                //change president to next person and edite role labels
-                if (i < 4 && PlayersArray[i].IsPresident == true)
+                PlayersArray[PlayersArray.Count - 1].IsPresident = false;
+                PlayersArray[0].IsPresident = true;
+                LabelRoles[4].Text = "";
+                LabelRoles[4].Visible = false;
+                LabelRoles[0].Text = "President";
+                LabelRoles[0].Visible = true;
+            }
+
+            else
+            {
+                for (int i = 0; i < PlayersArray.Count; i++)
                 {
-                    PlayersArray[i].IsPresident = false;
-                    PlayersArray[i + 1].IsPresident = true;
-                    LabelRoles[i].Text = "";
-                    LabelRoles[i].Visible = false;
-                    LabelRoles[i + 1].Text = "President";
-                    LabelRoles[i + 1].Visible = true;
-                    break;
-                }
-                //If president is last player, give it to the first and edit role labels
-                else if (PlayersArray[4].IsPresident == true)
-                {
-                    PlayersArray[4].IsPresident = false;
-                    PlayersArray[0].IsPresident = true;
-                    LabelRoles[4].Text = "";
-                    LabelRoles[4].Visible = false;
-                    LabelRoles[0].Text = "President";
-                    LabelRoles[0].Visible = true;
-                    break;
+                    //change president to next person and edite role labels
+                    if (PlayersArray[i].IsPresident == true)
+                    {
+                        PlayersArray[i].IsPresident = false;
+                        PlayersArray[i + 1].IsPresident = true;
+                        LabelRoles[i].Text = "";
+                        LabelRoles[i].Visible = false;
+                        LabelRoles[i + 1].Text = "President";
+                        LabelRoles[i + 1].Visible = true;
+                        break;
+                    }
                 }
             }
 
@@ -543,7 +529,8 @@ namespace Secret_Hitler
 
         private bool CheckPresident()
         {
-            for (int i = 0; i < PlayersArray.Length; i++)
+            //If any of the players is the president, return true
+            for (int i = 0; i < PlayersArray.Count; i++)
             {
                 if (PlayersArray[i].IsPresident==true)
                 {
@@ -554,27 +541,41 @@ namespace Secret_Hitler
         }
 
         private void GiveRoles()
-        {   //Counters for number of Liberals, Fascists and Hitler
+        {
+            //Initializing minimum number of liberal and fascist players. Hitler is included as a fascist
+            int MaxLib=3;
+            int MaxFasc=2;
+
+            //Increase the number of liberal and fascist players depending how many players there are
+            for (int i = MaxLib+MaxFasc; i < Properties.Settings.Default.Number_Of_Players+1; i++)
+            {
+                if (MaxLib == MaxFasc + 1)
+                {
+                    MaxLib++;
+                }
+                else MaxFasc++;
+            }
+            //Counters for number of Liberals, Fascists and Hitler
             int Lib = 0;
             int Fasc = 0;
             int Hitl = 0;
-            for (int i = 0; i < PlayersArray.Length; i++)
+            for (int i = 0; i < PlayersArray.Count; i++)
             {
                 
                 RAND:
-                int r = Rand.Next(0,3);
-                //Checks random number r and amount of that people that there are. If number of either is at the limit, generates the new random number
-                if (r == 0 && Lib < 3)
+                int rand = Rand.Next(0,3);
+                //Checks random number rand and amount of that people that there are. If number of either is at the limit, generates the new random number
+                if (rand == 0 && Lib < MaxLib)
                 {
                     PlayersArray[i].IsLiberal = true;
                     Lib++;
                 }
-                else if (r == 1 && Fasc < 2)
+                else if (rand == 1 && Fasc < MaxFasc-1)
                 {
                     PlayersArray[i].IsFascist = true;
                     Fasc++;
                 }
-                else if (r == 2 && Hitl < 1)
+                else if (rand == 2 && Hitl < 1)
                 {
                     PlayersArray[i].IsHitler = true;
                     Hitl++;
@@ -585,20 +586,27 @@ namespace Secret_Hitler
             //Showing player role
             if (PlayersArray[0].IsLiberal == true)
             {
-                MessageBox.Show("You are liberal!");
+                MessageBox.Show("You are liberal!"+Environment.NewLine+"Enact 5 liberal policies or assassinate Hitler to win.");
+                RTXTBOX_InfoLog.AppendText("You are Liberal!"+Environment.NewLine + Environment.NewLine);
                 LBL_PlayerHuman.Text += " - Liberal";
             }
             else if (PlayersArray[0].IsFascist == true)
             {
-                MessageBox.Show("You are fascist!");
+                MessageBox.Show("You are fascist!" + Environment.NewLine + "Enact 6 fascist policies or elect Hitler as chancellor after third fascist policy to win.");
+                RTXTBOX_InfoLog.AppendText("You are Fascist!" + Environment.NewLine + Environment.NewLine);
                 LBL_PlayerHuman.Text += " - Fascist";
                 ShowFascists();
             }
             else
             {
-                MessageBox.Show("You are Hitler!");
+                MessageBox.Show("You are Hitler!" + Environment.NewLine + "Enact 6 fascist policies or be elected as chancellor after third fascist policy to win.");
+                RTXTBOX_InfoLog.AppendText("You are Hitler!" + Environment.NewLine + Environment.NewLine);
                 LBL_PlayerHuman.Text += " - Hitler";
-                ShowFascists();
+                //Hitler only knows who the other Fascists are if there are less than 7 players playing
+                if (Properties.Settings.Default.Number_Of_Players<=5)
+                {
+                    ShowFascists();
+                }
             }
 
 
@@ -608,7 +616,7 @@ namespace Secret_Hitler
         {
             //Shows which player is fascist
 
-            for (int i = 1; i < PlayersArray.Length; i++)
+            for (int i = 1; i < PlayersArray.Count; i++)
             {
                 if (PlayersArray[i].IsFascist==true)
                 {
@@ -648,6 +656,42 @@ namespace Secret_Hitler
             {
                 ChancellorPolicyCheck();
             }
+            else if (EventStage==4)
+            {
+                Reset();
+            }
+        }
+
+        private void Reset()
+        {
+            //Enable "New game" and "Settings" buttons, disable continuation button
+            BTN_NewGame.Enabled = true;
+            BTN_Settings.Enabled = true;
+            BTN_Continuation.Enabled = false;
+            BTN_Continuation.Visible = false;
+            LBL_RoundCounter.Visible = false;
+
+            //Reset Labels to nothing for next game
+            for (int i = 0; i < LabelNames.Count; i++)
+            {
+                LabelNames[i].Text = "";
+            }
+
+            for (int i = 0; i < LabelRoles.Count; i++)
+            {
+                LabelRoles[i].Text = "";
+            }
+
+            //Delete lists of players, cards and labels. Players and labels have to be refilled depending on amount of players for next game
+            //Cards have to be reset to the beginning
+            PlayersArray.RemoveRange(0, PlayersArray.Count);
+            LabelNames.RemoveRange(0, LabelNames.Count);
+            LabelRoles.RemoveRange(0, LabelRoles.Count);
+            DiscardedPolicies.RemoveRange(0, DiscardedPolicies.Count);
+            Policies.RemoveRange(0, Policies.Count);
+
+            //Bring logo to the front
+            PB_Image.BringToFront();
         }
 
         private void ChancellorPolicyCheck()
@@ -668,18 +712,17 @@ namespace Secret_Hitler
                 string temp = Policies[Discard];
                 Policies.RemoveAt(Discard);
                 DiscardedPolicies.Add(temp);
-                MessageBox.Show("Chancellor has discarded a card");
+                //MessageBox.Show("Chancellor has discarded a card");
+                RTXTBOX_InfoLog.AppendText("Chancellor has discarded a card."+Environment.NewLine + Environment.NewLine);
             }
-            //Set stage to the beginning
-            EventStage = 0;
-
             
             //Increase number of the inacted policies depending which policy it is, remove the first policy from the game
             if (Policies[0] == "Liberal")
             {
                 LiberalPolicies++;
                 LBL_LiberalLaws.Text = "Liberal Laws - " + LiberalPolicies.ToString();
-                MessageBox.Show("Liberal law has been added");
+                //MessageBox.Show("Liberal law has been added");
+                RTXTBOX_InfoLog.AppendText("Liberal law has been added." + Environment.NewLine + Environment.NewLine);
                 if (LiberalPolicies == 6)
                 {
                     GameOver();
@@ -689,33 +732,44 @@ namespace Secret_Hitler
             {
                 FascistPolicies++;
                 LBL_FacistLaws.Text = "Fascist Laws - " + FascistPolicies.ToString();
-                MessageBox.Show("Fascist law has been added");
-                if (FascistPolicies == 6)
-                {
-                    GameOver();
-                }
-            }
-            //If there are less than three policies in policy card pile, add the discarded policies in, shuffle them and empty the discarded policy list
-            if (Policies.Count < 3)
-            {
-                Policies.AddRange(DiscardedPolicies);
-                Policies.Shuffle();
-                DiscardedPolicies.RemoveRange(0, DiscardedPolicies.Count);
+                //MessageBox.Show("Fascist law has been added");
+                RTXTBOX_InfoLog.AppendText("Fascist law has been added." + Environment.NewLine + Environment.NewLine);
+
             }
 
-            StartGame();
+            //If policy win condition has been reached, call in Game over function
+            if (LiberalPolicies == 5)
+            {
+                GameOver();
+            }
+            else if (FascistPolicies == 6)
+            {
+                GameOver();
+            }
+            else //Else check if there are enough cards in policies list for another round
+            {
+                //If there are less than three policies in policy card pile, add the discarded policies in, shuffle them and empty the discarded policy list
+                if (Policies.Count < 3)
+                {
+                    Policies.AddRange(DiscardedPolicies);
+                    Policies.Shuffle();
+                    DiscardedPolicies.RemoveRange(0, DiscardedPolicies.Count);
+                }
+                //Increasing the round counter and updating the label
+                RoundCounter++;
+                LBL_RoundCounter.Text = "Round: " + RoundCounter.ToString();
+                //Restart the loop
+                StartGame();
+            }
 
 
         }
 
         private void GameOver()
         {
-            BTN_NewGame.Enabled = true;
-            BTN_Settings.Enabled = true;
-            BTN_Continuation.Enabled = false;
-            BTN_Continuation.Visible = false;
-
-            for (int i = 1; i < PlayersArray.Length; i++)
+           
+            //Shows which player was playing as what role
+            for (int i = 1; i < PlayersArray.Count; i++)
             {
                 LabelNames[i].Text = PlayersArray[i].Name + " - ";
                 if (PlayersArray[i].IsLiberal == true)
@@ -727,7 +781,14 @@ namespace Secret_Hitler
                     LabelNames[i].Text += "Fascist";
                 }
                 else LabelNames[i].Text += "Hitler";
+
+                BTN_Continuation.Text = "Reset";
+                EventStage = 4;
             }
+
+
+
+            
         }
 
         private void PresidentPolicyCheck()
@@ -752,12 +813,19 @@ namespace Secret_Hitler
                 string temp = Policies[RandomPolicy];
                 Policies.RemoveAt(RandomPolicy);
                 DiscardedPolicies.Add(temp);
-                MessageBox.Show("President has discarded a card");
+                //MessageBox.Show("President has discarded a card");
+                RTXTBOX_InfoLog.AppendText("President has discarded a card." + Environment.NewLine + Environment.NewLine);
             }
 
             //Move event Stage to next stage
             EventStage = 3;
             BTN_Continuation.Text = "Chancellor Discard";
+        }
+
+        private void RTXTBOX_InfoLog_TextChanged(object sender, EventArgs e)
+        {
+            RTXTBOX_InfoLog.SelectionStart = RTXTBOX_InfoLog.Text.Length;
+            RTXTBOX_InfoLog.ScrollToCaret();
         }
     }
 
@@ -778,6 +846,16 @@ namespace Secret_Hitler
                 list[n] = value;
 
             }
+        }
+
+        public static void AppendText(this RichTextBox box, string text, Color color)
+        {
+            box.SelectionStart = box.Text.Length;
+            box.SelectionLength = 0;
+
+            box.SelectionColor = color;
+            box.AppendText(text);
+            box.SelectionColor = box.ForeColor;
         }
     }
 }

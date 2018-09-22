@@ -57,6 +57,8 @@
             this.LBL_Player9 = new System.Windows.Forms.Label();
             this.LBL_Player9Role = new System.Windows.Forms.Label();
             this.PB_Image = new System.Windows.Forms.PictureBox();
+            this.RTXTBOX_InfoLog = new System.Windows.Forms.RichTextBox();
+            this.LBL_RoundCounter = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Playing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Image)).BeginInit();
             this.SuspendLayout();
@@ -384,11 +386,33 @@
             // PB_Image
             // 
             this.PB_Image.Image = global::Secret_Hitler.Properties.Resources.pic2771488;
-            this.PB_Image.Location = new System.Drawing.Point(57, 26);
+            this.PB_Image.Location = new System.Drawing.Point(57, 25);
             this.PB_Image.Name = "PB_Image";
-            this.PB_Image.Size = new System.Drawing.Size(574, 403);
+            this.PB_Image.Size = new System.Drawing.Size(574, 404);
             this.PB_Image.TabIndex = 28;
             this.PB_Image.TabStop = false;
+            // 
+            // RTXTBOX_InfoLog
+            // 
+            this.RTXTBOX_InfoLog.Location = new System.Drawing.Point(651, 166);
+            this.RTXTBOX_InfoLog.Name = "RTXTBOX_InfoLog";
+            this.RTXTBOX_InfoLog.ReadOnly = true;
+            this.RTXTBOX_InfoLog.Size = new System.Drawing.Size(137, 263);
+            this.RTXTBOX_InfoLog.TabIndex = 29;
+            this.RTXTBOX_InfoLog.Text = "";
+            this.RTXTBOX_InfoLog.TextChanged += new System.EventHandler(this.RTXTBOX_InfoLog_TextChanged);
+            // 
+            // LBL_RoundCounter
+            // 
+            this.LBL_RoundCounter.AutoSize = true;
+            this.LBL_RoundCounter.BackColor = System.Drawing.SystemColors.Control;
+            this.LBL_RoundCounter.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LBL_RoundCounter.Location = new System.Drawing.Point(90, 52);
+            this.LBL_RoundCounter.Name = "LBL_RoundCounter";
+            this.LBL_RoundCounter.Size = new System.Drawing.Size(74, 20);
+            this.LBL_RoundCounter.TabIndex = 30;
+            this.LBL_RoundCounter.Text = "Round: #";
+            this.LBL_RoundCounter.Visible = false;
             // 
             // MainForm
             // 
@@ -396,6 +420,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.LBL_RoundCounter);
+            this.Controls.Add(this.RTXTBOX_InfoLog);
             this.Controls.Add(this.PB_Image);
             this.Controls.Add(this.LBL_Player9Role);
             this.Controls.Add(this.LBL_Player9);
@@ -466,6 +492,8 @@
         private System.Windows.Forms.Label LBL_Player9;
         private System.Windows.Forms.Label LBL_Player9Role;
         private System.Windows.Forms.PictureBox PB_Image;
+        private System.Windows.Forms.RichTextBox RTXTBOX_InfoLog;
+        private System.Windows.Forms.Label LBL_RoundCounter;
     }
 }
 
