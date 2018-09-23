@@ -15,6 +15,8 @@ namespace Secret_Hitler
         public bool IsPresident { get; set; }
         public bool IsChancellor { get; set; }
         public bool IsNominated { get; set; }
+        public bool WasInOffice { get; set; }
+        public bool IsAssassinated { get; set; }
 
         public Players(string name)
         {
@@ -25,6 +27,8 @@ namespace Secret_Hitler
             IsPresident = false;
             IsChancellor = false;
             IsNominated = false;
+            WasInOffice = false;
+            IsAssassinated = false;
         }
 
     }

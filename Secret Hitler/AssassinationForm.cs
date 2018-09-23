@@ -10,14 +10,14 @@ using System.Windows.Forms;
 
 namespace Secret_Hitler
 {
-    public partial class ChooseChancellor : Form
+    public partial class AssassinationForm : Form
     {
         public int Selected { get; set; }
 
         RadioButton[] radioButtons = new RadioButton[9];
-        
 
-        public ChooseChancellor(List<Players> playersArray)
+
+        public AssassinationForm(List<Players> playersArray)
         {
             InitializeComponent();
             //Filling array of radio buttons
@@ -31,23 +31,19 @@ namespace Secret_Hitler
             radioButtons[7] = RADBTN_Player8;
             radioButtons[8] = RADBTN_Player9;
 
-        for (int i = 1; i < playersArray.Count; i++)
-         {
-            radioButtons[i-1].Text = playersArray[i].Name;
-            radioButtons[i-1].Visible = true;
-           
-            if (playersArray[i].WasInOffice==true)
+            for (int i = 1; i < playersArray.Count; i++)
             {
-                    radioButtons[i-1].Text += " (player has been in office last turn)";
-                    radioButtons[i-1].Enabled = false;
-            }
-            else if (playersArray[i].IsAssassinated==true)
-            {
-                    radioButtons[i - 1].Text += " (player is assassinated)";
-                    radioButtons[i - 1].Enabled = false;
-            }
+                radioButtons[i - 1].Text = playersArray[i].Name;
+                radioButtons[i - 1].Visible = true;
 
-         }
+                if (playersArray[i].IsAssassinated == true)
+                {
+                    radioButtons[i - 1].Text += " (player is already dead)";
+                    radioButtons[i - 1].Enabled = false;
+                }
+
+
+            }
             if (radioButtons[0].Enabled == true)
             {
                 radioButtons[0].Select();
@@ -58,25 +54,25 @@ namespace Secret_Hitler
             }
             else radioButtons[2].Select();
 
-            
+
         }
 
-        private void BTN_Nominate_Click(object sender, EventArgs e)
+        private void BTN_Assassinate_Click(object sender, EventArgs e)
         {
             Close();
         }
 
-        private void ChooseChancellor_FormClosing(object sender, FormClosingEventArgs e)
+        private void AssassinationForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             //Giving value to value for selected member
 
             for (int i = 0; i < radioButtons.Length; i++)
-             {
-                 if (radioButtons[i].Checked==true)
-                 {
-                        Selected = i+1;
-                 }
-             }
+            {
+                if (radioButtons[i].Checked == true)
+                {
+                    Selected = i + 1;
+                }
+            }
         }
     }
 }

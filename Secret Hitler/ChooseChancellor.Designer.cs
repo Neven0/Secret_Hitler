@@ -56,7 +56,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label2.Location = new System.Drawing.Point(12, 47);
+            this.label2.Location = new System.Drawing.Point(160, 27);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(290, 16);
             this.label2.TabIndex = 1;
@@ -78,7 +78,7 @@
             // 
             this.RADBTN_Player2.AutoSize = true;
             this.RADBTN_Player2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.RADBTN_Player2.Location = new System.Drawing.Point(176, 83);
+            this.RADBTN_Player2.Location = new System.Drawing.Point(270, 83);
             this.RADBTN_Player2.Name = "RADBTN_Player2";
             this.RADBTN_Player2.Size = new System.Drawing.Size(112, 20);
             this.RADBTN_Player2.TabIndex = 3;
@@ -102,7 +102,7 @@
             // 
             this.RADBTN_Player4.AutoSize = true;
             this.RADBTN_Player4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.RADBTN_Player4.Location = new System.Drawing.Point(176, 109);
+            this.RADBTN_Player4.Location = new System.Drawing.Point(270, 109);
             this.RADBTN_Player4.Name = "RADBTN_Player4";
             this.RADBTN_Player4.Size = new System.Drawing.Size(112, 20);
             this.RADBTN_Player4.TabIndex = 5;
@@ -112,7 +112,7 @@
             // 
             // BTN_Nominate
             // 
-            this.BTN_Nominate.Location = new System.Drawing.Point(307, 184);
+            this.BTN_Nominate.Location = new System.Drawing.Point(446, 188);
             this.BTN_Nominate.Name = "BTN_Nominate";
             this.BTN_Nominate.Size = new System.Drawing.Size(75, 23);
             this.BTN_Nominate.TabIndex = 6;
@@ -137,7 +137,7 @@
             // 
             this.RADBTN_Player6.AutoSize = true;
             this.RADBTN_Player6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.RADBTN_Player6.Location = new System.Drawing.Point(176, 135);
+            this.RADBTN_Player6.Location = new System.Drawing.Point(270, 135);
             this.RADBTN_Player6.Name = "RADBTN_Player6";
             this.RADBTN_Player6.Size = new System.Drawing.Size(112, 20);
             this.RADBTN_Player6.TabIndex = 8;
@@ -163,7 +163,7 @@
             // 
             this.RADBTN_Player8.AutoSize = true;
             this.RADBTN_Player8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.RADBTN_Player8.Location = new System.Drawing.Point(176, 162);
+            this.RADBTN_Player8.Location = new System.Drawing.Point(270, 158);
             this.RADBTN_Player8.Name = "RADBTN_Player8";
             this.RADBTN_Player8.Size = new System.Drawing.Size(112, 20);
             this.RADBTN_Player8.TabIndex = 10;
@@ -176,7 +176,7 @@
             // 
             this.RADBTN_Player9.AutoSize = true;
             this.RADBTN_Player9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.RADBTN_Player9.Location = new System.Drawing.Point(104, 188);
+            this.RADBTN_Player9.Location = new System.Drawing.Point(153, 187);
             this.RADBTN_Player9.Name = "RADBTN_Player9";
             this.RADBTN_Player9.Size = new System.Drawing.Size(112, 20);
             this.RADBTN_Player9.TabIndex = 11;
@@ -189,7 +189,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(394, 219);
+            this.ClientSize = new System.Drawing.Size(533, 219);
             this.Controls.Add(this.RADBTN_Player9);
             this.Controls.Add(this.RADBTN_Player8);
             this.Controls.Add(this.RADBTN_Player7);

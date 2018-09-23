@@ -29,6 +29,9 @@ namespace Secret_Hitler
         //Round counter to... count rounds of course
         int RoundCounter;
 
+        bool FirstAssassinationGiven;
+        bool SecondAssassinationGiven;
+
         //Create new random object for all random needs
         Random Rand = new Random();
 
@@ -59,6 +62,8 @@ namespace Secret_Hitler
             LBL_FacistLaws.Text = "Fascist Laws - 0";
             LBL_LiberalLaws.Text = "Liberal Laws - 0";
 
+            FirstAssassinationGiven = false;
+            SecondAssassinationGiven = false;
             //Filling the policies array with 6 liberal and 11 fascist cards
             for (int i = 0; i < 17; i++)
             {
@@ -66,13 +71,14 @@ namespace Secret_Hitler
                 else Policies.Add("Fascist");
 
             }
-            //Setting the counter to 1, updating the label
-            RoundCounter = 1;
-            LBL_RoundCounter.Text = "Round: " + RoundCounter.ToString();
+
             //Shuffle the policy list
             Policies.Shuffle();
             //Give roles to players
             GiveRoles();
+            //Setting the counter to 1, updating the label
+            RoundCounter = 1;
+            LBL_RoundCounter.Text = "Round: " + RoundCounter.ToString();
             //Send the "Secret Hitler" image to the back, so it's not visible
             PB_Image.SendToBack();
             //Making round counter label visible after image is sent to back
@@ -367,6 +373,10 @@ namespace Secret_Hitler
         private void StartGame()
         {
             //give president
+            //Updating the round counter label
+            LBL_RoundCounter.Text = "Round: " + RoundCounter.ToString();
+            //Writing round number after roles are given
+            RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + "ROUND " + RoundCounter.ToString());
             GivePresident();
             BTN_Continuation.Text = "Choose chancellor";
         }
@@ -374,11 +384,13 @@ namespace Secret_Hitler
 
         private void VoteChancellor()
         {
-            
+
             //Initializing counters for votes
             int VoteYes = 0;
             int VoteNo = 0;
 
+            if (PlayersArray[0].IsAssassinated == false)
+            {
             //Starting voting form
             Voting voting = new Voting(PlayersArray);
             voting.ShowDialog();
@@ -391,9 +403,19 @@ namespace Secret_Hitler
             {
                 VoteNo++;
             }
+
+            }
             //Random votes for AI players
             int rand;
-            for (int i = 0; i < Properties.Settings.Default.Number_Of_Players; i++)
+            int alive = 0;
+            for (int i = 1; i < PlayersArray.Count; i++)
+            {
+                if (PlayersArray[i].IsAssassinated==false)
+                {
+                    alive++;
+                }
+            }
+            for (int i = 0; i < alive; i++)
             {
                 //Random has been set from max value 1 to 2 because too many times, 0 would be drawn
                 rand=Rand.Next(0, 2);
@@ -409,23 +431,27 @@ namespace Secret_Hitler
             //Message to player when voting ends
             if (VoteNo > VoteYes)
             {   //Restart the cycle if majority vote is no
-                //MessageBox.Show("Vote no won by " + VoteNo.ToString() + " to " + VoteYes.ToString() + ". President to be moved to next player.");
-
-                RTXTBOX_InfoLog.AppendText("Vote no won by " + VoteNo.ToString() + " to " + VoteYes.ToString() + 
-                    ". President to be moved to next player." + Environment.NewLine + Environment.NewLine, Color.Red);
-                StartGame();
+                RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine+"Vote no won by " + VoteNo.ToString() + " to " + VoteYes.ToString() + 
+                    ". President to be moved to next player.", Color.Red);
+                //StartGame();
+                EventStage = 5;
+                RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + "END OF ROUND " + RoundCounter.ToString());
+                RoundCounter++;
+                BTN_Continuation.Text = "Next Round";
             }
             else if (VoteNo == VoteYes)
             {
-                //MessageBox.Show("Vote ended in a tie. Presidency is moved to next player.");
-                RTXTBOX_InfoLog.AppendText("Vote ended in a tie. Presidency is moved to next player."+Environment.NewLine + Environment.NewLine,Color.Red);
-                StartGame();
+                RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine+"Vote ended in a tie. Presidency is moved to next player.",Color.Red);
+                //StartGame();
+                EventStage = 5;
+                RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + "END OF ROUND " + RoundCounter.ToString());
+                RoundCounter++;
+                BTN_Continuation.Text = "Next Round";
             }
             else
             {
-                //MessageBox.Show("Vote yes won by " + VoteYes.ToString() + " to " + VoteNo.ToString());
-                RTXTBOX_InfoLog.AppendText("Vote yes won by " + VoteYes.ToString() + " to " + 
-                    VoteNo.ToString() + Environment.NewLine + Environment.NewLine, Color.Green);
+                RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine+"Vote yes won by " + VoteYes.ToString() + " to " + 
+                    VoteNo.ToString(), Color.Green);
                 EventStage = 2;
                 BTN_Continuation.Text = "President Discard";
 
@@ -454,12 +480,13 @@ namespace Secret_Hitler
                 ChooseChancellor chancellor = new ChooseChancellor(PlayersArray);
                 chancellor.ShowDialog();
                 PlayersArray[chancellor.Selected].IsNominated = true;
+                RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine+"You have nominated " +PlayersArray[chancellor.Selected].Name, Color.Green);
             }
             else //If AI is president, nominate a random chancellor
             {
                 REDO:
                 int choice = Rand.Next(0, PlayersArray.Count);
-                if (PlayersArray[choice].IsPresident==true)
+                if (PlayersArray[choice].IsPresident==true||PlayersArray[choice].WasInOffice==true||PlayersArray[choice].IsAssassinated==true)
                 {
                     goto REDO;
                 }
@@ -467,9 +494,9 @@ namespace Secret_Hitler
                 //MessageBox.Show(PlayersArray[choice].Name + " has been nominated!");
                 if (PlayersArray[0].IsNominated==true)
                 {
-                    RTXTBOX_InfoLog.AppendText("You have been nominated!" + Environment.NewLine + Environment.NewLine,Color.Green);
+                    RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine+"You have been nominated!",Color.Green);
                 }
-                RTXTBOX_InfoLog.AppendText(PlayersArray[choice].Name + " has been nominated!" + Environment.NewLine + Environment.NewLine);
+                else RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine+PlayersArray[choice].Name + " has been nominated!");
             }
         }
 
@@ -480,47 +507,124 @@ namespace Secret_Hitler
             //Reset role labels, chancellor and nomination values for all players
             for (int i = 0; i < PlayersArray.Count; i++)
             {
+                if (PlayersArray[i].IsAssassinated==true)
+                {
+                    continue;
+                }
                 PlayersArray[i].IsNominated = false;
-                PlayersArray[i].IsChancellor = false;
+
+                if (PlayersArray[i].IsChancellor == true)
+                {
+                    PlayersArray[i].IsChancellor = false;
+                    PlayersArray[i].WasInOffice = true;
+                }
+                else PlayersArray[i].WasInOffice = false;
                 LabelRoles[i].Text = "";
                 LabelRoles[i].Visible = false;
             }
             //check if president already exists
             bool PresidentExists = CheckPresident();
-            if (PresidentExists==false)
+            if (PresidentExists == false)
             {
                 //If president doesn't exist, give it to first player
                 PlayersArray[0].IsPresident = true;
                 LabelRoles[0].Text = "President";
                 LabelRoles[0].Visible = true;
+                RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + " You are the president.");
                 return;
             }
 
             //If president is last player, give it to the first and edit role labels
-            if (PlayersArray[PlayersArray.Count - 1].IsPresident == true)
+            if (PlayersArray[PlayersArray.Count - 1].IsPresident == true && PlayersArray[0].IsAssassinated == false)
             {
                 PlayersArray[PlayersArray.Count - 1].IsPresident = false;
+                PlayersArray[PlayersArray.Count - 1].WasInOffice = true;
                 PlayersArray[0].IsPresident = true;
-                LabelRoles[4].Text = "";
-                LabelRoles[4].Visible = false;
                 LabelRoles[0].Text = "President";
                 LabelRoles[0].Visible = true;
+                RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + "You are the president.");
+            }
+            else if (PlayersArray[PlayersArray.Count - 1].IsPresident == true && PlayersArray[1].IsAssassinated == false)
+            {
+                PlayersArray[PlayersArray.Count - 1].IsPresident = false;
+                PlayersArray[PlayersArray.Count - 1].WasInOffice = true;
+                PlayersArray[1].IsPresident = true;
+                LabelRoles[1].Text = "President";
+                LabelRoles[1].Visible = true;
+                RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + PlayersArray[1].Name + " is the president.");
+            }
+            else if (PlayersArray[PlayersArray.Count - 1].IsPresident == true && PlayersArray[2].IsAssassinated == false)
+            {
+                PlayersArray[PlayersArray.Count - 1].IsPresident = false;
+                PlayersArray[PlayersArray.Count - 1].WasInOffice = true;
+                PlayersArray[2].IsPresident = true;
+                LabelRoles[2].Text = "President";
+                LabelRoles[2].Visible = true;
+                RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + PlayersArray[2].Name + " is the president.");
+            }
+            else if (PlayersArray[PlayersArray.Count - 2].IsPresident == true && PlayersArray[PlayersArray.Count - 1].IsAssassinated == false)
+            {
+                PlayersArray[PlayersArray.Count - 2].IsPresident = false;
+                PlayersArray[PlayersArray.Count - 2].WasInOffice = true;
+                PlayersArray[PlayersArray.Count - 1].IsPresident = true;
+                LabelRoles[PlayersArray.Count - 1].Text = "President";
+                LabelRoles[PlayersArray.Count - 1].Visible = true;
+                RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + PlayersArray[PlayersArray.Count - 1].Name + " is the president.");
+            }
+            else if (PlayersArray[PlayersArray.Count - 2].IsPresident == true && PlayersArray[0].IsAssassinated == false)
+            {
+                PlayersArray[PlayersArray.Count - 2].IsPresident = false;
+                PlayersArray[PlayersArray.Count - 2].WasInOffice = true;
+                PlayersArray[1].IsPresident = true;
+                LabelRoles[1].Text = "President";
+                LabelRoles[1].Visible = true;
+                RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + PlayersArray[1].Name + " is the president.");
             }
 
             else
             {
-                for (int i = 0; i < PlayersArray.Count; i++)
+                for (int i = 0; i < PlayersArray.Count-1; i++)
                 {
+
                     //change president to next person and edite role labels
                     if (PlayersArray[i].IsPresident == true)
                     {
-                        PlayersArray[i].IsPresident = false;
-                        PlayersArray[i + 1].IsPresident = true;
-                        LabelRoles[i].Text = "";
-                        LabelRoles[i].Visible = false;
-                        LabelRoles[i + 1].Text = "President";
-                        LabelRoles[i + 1].Visible = true;
-                        break;
+                        if (PlayersArray[i+1].IsAssassinated==false)
+                        {
+                            PlayersArray[i].IsPresident = false;
+                            PlayersArray[i].WasInOffice = true;
+                            PlayersArray[i + 1].IsPresident = true;
+                            LabelRoles[i].Text = "";
+                            LabelRoles[i].Visible = false;
+                            LabelRoles[i + 1].Text = "President";
+                            LabelRoles[i + 1].Visible = true;
+                            RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + PlayersArray[i + 1].Name + " is the president.");
+                            break;
+                        }
+                        else if (PlayersArray[i + 2].IsAssassinated == false)
+                        {
+                            PlayersArray[i].IsPresident = false;
+                            PlayersArray[i].WasInOffice = true;
+                            PlayersArray[i + 2].IsPresident = true;
+                            LabelRoles[i].Text = "";
+                            LabelRoles[i].Visible = false;
+                            LabelRoles[i + 2].Text = "President";
+                            LabelRoles[i + 2].Visible = true;
+                            RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + PlayersArray[i + 2].Name + " is the president.");
+                            break;
+                        }
+                        else
+                        {
+                            PlayersArray[i].IsPresident = false;
+                            PlayersArray[i].WasInOffice = true;
+                            PlayersArray[i + 3].IsPresident = true;
+                            LabelRoles[i].Text = "";
+                            LabelRoles[i].Visible = false;
+                            LabelRoles[i + 3].Text = "President";
+                            LabelRoles[i + 3].Visible = true;
+                            RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + PlayersArray[i + 3].Name + " is the president.");
+                            break;
+                        }
                     }
                 }
             }
@@ -587,20 +691,20 @@ namespace Secret_Hitler
             if (PlayersArray[0].IsLiberal == true)
             {
                 MessageBox.Show("You are liberal!"+Environment.NewLine+"Enact 5 liberal policies or assassinate Hitler to win.");
-                RTXTBOX_InfoLog.AppendText("You are Liberal!"+Environment.NewLine + Environment.NewLine);
+                RTXTBOX_InfoLog.AppendText("You are Liberal!");
                 LBL_PlayerHuman.Text += " - Liberal";
             }
             else if (PlayersArray[0].IsFascist == true)
             {
                 MessageBox.Show("You are fascist!" + Environment.NewLine + "Enact 6 fascist policies or elect Hitler as chancellor after third fascist policy to win.");
-                RTXTBOX_InfoLog.AppendText("You are Fascist!" + Environment.NewLine + Environment.NewLine);
+                RTXTBOX_InfoLog.AppendText("You are Fascist!");
                 LBL_PlayerHuman.Text += " - Fascist";
                 ShowFascists();
             }
             else
             {
                 MessageBox.Show("You are Hitler!" + Environment.NewLine + "Enact 6 fascist policies or be elected as chancellor after third fascist policy to win.");
-                RTXTBOX_InfoLog.AppendText("You are Hitler!" + Environment.NewLine + Environment.NewLine);
+                RTXTBOX_InfoLog.AppendText("You are Hitler!");
                 LBL_PlayerHuman.Text += " - Hitler";
                 //Hitler only knows who the other Fascists are if there are less than 7 players playing
                 if (Properties.Settings.Default.Number_Of_Players<=5)
@@ -660,6 +764,10 @@ namespace Secret_Hitler
             {
                 Reset();
             }
+            else if (EventStage==5)
+            {
+                StartGame();
+            }
         }
 
         private void Reset()
@@ -675,11 +783,13 @@ namespace Secret_Hitler
             for (int i = 0; i < LabelNames.Count; i++)
             {
                 LabelNames[i].Text = "";
+                LabelNames[i].ForeColor = Color.Black;
             }
 
             for (int i = 0; i < LabelRoles.Count; i++)
             {
                 LabelRoles[i].Text = "";
+                LabelRoles[i].ForeColor = Color.Black;
             }
 
             //Delete lists of players, cards and labels. Players and labels have to be refilled depending on amount of players for next game
@@ -690,6 +800,8 @@ namespace Secret_Hitler
             DiscardedPolicies.RemoveRange(0, DiscardedPolicies.Count);
             Policies.RemoveRange(0, Policies.Count);
 
+            RTXTBOX_InfoLog.Text= RTXTBOX_InfoLog.Text.Remove(0);
+
             //Bring logo to the front
             PB_Image.BringToFront();
         }
@@ -697,13 +809,14 @@ namespace Secret_Hitler
         private void ChancellorPolicyCheck()
         {
             //Show chancellor discard form if player is the chancellor
-            if (PlayersArray[0].IsChancellor==true)
+            if (PlayersArray[0].IsChancellor==true&&PlayersArray[0].IsAssassinated==false)
             {
                 ChancellorPolicyDiscard chancellor = new ChancellorPolicyDiscard(PlayersArray[0], Policies[0], Policies[1]);
                 chancellor.ShowDialog();
                 string temp = Policies[chancellor.Choice];
                 Policies.RemoveAt(chancellor.Choice);
                 DiscardedPolicies.Add(temp);
+                RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine+"You have discarded a card.");
             }
             //Randomly pick one if the play is not a chancellor
             else
@@ -713,7 +826,7 @@ namespace Secret_Hitler
                 Policies.RemoveAt(Discard);
                 DiscardedPolicies.Add(temp);
                 //MessageBox.Show("Chancellor has discarded a card");
-                RTXTBOX_InfoLog.AppendText("Chancellor has discarded a card."+Environment.NewLine + Environment.NewLine);
+                RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine+"Chancellor has discarded a card.");
             }
             
             //Increase number of the inacted policies depending which policy it is, remove the first policy from the game
@@ -722,31 +835,109 @@ namespace Secret_Hitler
                 LiberalPolicies++;
                 LBL_LiberalLaws.Text = "Liberal Laws - " + LiberalPolicies.ToString();
                 //MessageBox.Show("Liberal law has been added");
-                RTXTBOX_InfoLog.AppendText("Liberal law has been added." + Environment.NewLine + Environment.NewLine);
-                if (LiberalPolicies == 6)
-                {
-                    GameOver();
-                }
+                RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine+"Liberal law has been added.");
             }
             else if (Policies[0] == "Fascist")
             {
                 FascistPolicies++;
                 LBL_FacistLaws.Text = "Fascist Laws - " + FascistPolicies.ToString();
                 //MessageBox.Show("Fascist law has been added");
-                RTXTBOX_InfoLog.AppendText("Fascist law has been added." + Environment.NewLine + Environment.NewLine);
+                RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine+"Fascist law has been added.");
 
             }
+
+            if (FascistPolicies==4&&FirstAssassinationGiven==false)
+            {
+                FirstAssassinationGiven = true;
+                if (PlayersArray[0].IsPresident==true)
+                {
+                    AssassinationForm form = new AssassinationForm(PlayersArray);
+                    form.ShowDialog();
+                    PlayersArray[form.Selected].IsAssassinated=true;
+                    PlayersArray[form.Selected].IsChancellor = false;
+                    PlayersArray[form.Selected].IsNominated = false;
+                    PlayersArray[form.Selected].WasInOffice = false;
+                    LabelNames[form.Selected].ForeColor = Color.Gray;
+                    LabelRoles[form.Selected].Text = "Dead";
+                    LabelRoles[form.Selected].ForeColor=Color.Gray;
+                    LabelRoles[form.Selected].Visible = true;
+                }
+                else
+                {
+                    int rand;
+                    LOOP:
+                    rand = Rand.Next(0, PlayersArray.Count);
+                    if (PlayersArray[rand].IsPresident==true||PlayersArray[rand].IsAssassinated==true)
+                    {
+                        goto LOOP;
+                    }
+                    PlayersArray[rand].IsAssassinated = true;
+                    PlayersArray[rand].IsChancellor = false;
+                    PlayersArray[rand].IsNominated = false;
+                    PlayersArray[rand].WasInOffice = false;
+                    LabelNames[rand].ForeColor = Color.Gray;
+                    LabelRoles[rand].Text = "Dead";
+                    LabelRoles[rand].ForeColor = Color.Gray;
+                    LabelRoles[rand].Visible = true;
+                }
+            }
+            else if (FascistPolicies == 5 && SecondAssassinationGiven == false)
+            {
+                SecondAssassinationGiven = true; 
+                if (PlayersArray[0].IsPresident == true)
+                {
+                    AssassinationForm form = new AssassinationForm(PlayersArray);
+                    form.ShowDialog();
+                    PlayersArray[form.Selected].IsAssassinated = true;
+                    PlayersArray[form.Selected].IsChancellor = false;
+                    PlayersArray[form.Selected].IsNominated = false;
+                    PlayersArray[form.Selected].WasInOffice = false;
+                    LabelNames[form.Selected].ForeColor = Color.Gray;
+                    LabelRoles[form.Selected].Text = "Dead";
+                    LabelRoles[form.Selected].ForeColor = Color.Gray;
+                    LabelRoles[form.Selected].Visible = true;
+                }
+                else
+                {
+                    int rand;
+                    LOOP:
+                    rand = Rand.Next(0, PlayersArray.Count);
+                    if (PlayersArray[rand].IsPresident == true || PlayersArray[rand].IsAssassinated == true)
+                    {
+                        goto LOOP;
+                    }
+                    PlayersArray[rand].IsAssassinated = true;
+                    PlayersArray[rand].IsChancellor = false;
+                    PlayersArray[rand].IsNominated = false;
+                    PlayersArray[rand].WasInOffice = false;
+                    LabelNames[rand].ForeColor = Color.Gray;
+                    LabelRoles[rand].Text = "Dead";
+                    LabelRoles[rand].ForeColor = Color.Gray;
+                    LabelRoles[rand].Visible = true;
+                }
+            }
+
 
             //If policy win condition has been reached, call in Game over function
             if (LiberalPolicies == 5)
             {
+                if (PlayersArray[0].IsLiberal==true)
+                {
+                    RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + "Game over, we have won by enacting 5 policies!!",Color.Green);
+                }
+                else RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + "Game over, Liberals have won by enacting 5 policies!! We lost.",Color.Red);
                 GameOver();
             }
             else if (FascistPolicies == 6)
             {
+                if (PlayersArray[0].IsLiberal == true)
+                {
+                    RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + "Game over, Fascists have won by enacting 6 policies!! We lost.", Color.Red);
+                }
+                else RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + "Game over, We have won by enacting 6 policies!!", Color.Green);
                 GameOver();
             }
-            else //Else check if there are enough cards in policies list for another round
+            else 
             {
                 //If there are less than three policies in policy card pile, add the discarded policies in, shuffle them and empty the discarded policy list
                 if (Policies.Count < 3)
@@ -756,10 +947,12 @@ namespace Secret_Hitler
                     DiscardedPolicies.RemoveRange(0, DiscardedPolicies.Count);
                 }
                 //Increasing the round counter and updating the label
-                RoundCounter++;
-                LBL_RoundCounter.Text = "Round: " + RoundCounter.ToString();
+                RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine+"END OF ROUND " + RoundCounter.ToString());
                 //Restart the loop
-                StartGame();
+                //StartGame();
+                EventStage = 5;
+                RoundCounter++;
+                BTN_Continuation.Text = "Next Round";
             }
 
 
@@ -769,6 +962,7 @@ namespace Secret_Hitler
         {
            
             //Shows which player was playing as what role
+
             for (int i = 1; i < PlayersArray.Count; i++)
             {
                 LabelNames[i].Text = PlayersArray[i].Name + " - ";
@@ -814,7 +1008,7 @@ namespace Secret_Hitler
                 Policies.RemoveAt(RandomPolicy);
                 DiscardedPolicies.Add(temp);
                 //MessageBox.Show("President has discarded a card");
-                RTXTBOX_InfoLog.AppendText("President has discarded a card." + Environment.NewLine + Environment.NewLine);
+                RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine+"President has discarded a card.");
             }
 
             //Move event Stage to next stage
