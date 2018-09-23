@@ -32,5 +32,8 @@
     <Setting Name="Player9Name" Type="System.String" Scope="User">
       <Value Profile="(Default)">Luisa</Value>
     </Setting>
+    <Setting Name="AI_Difficulty" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

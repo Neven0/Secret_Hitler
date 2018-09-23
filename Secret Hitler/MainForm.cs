@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
-
+//TODO: Set AI behavior depending on difficulty, set Hitler assassination or as chancellor game over, set up setting for AI use of assassinations
 namespace Secret_Hitler
 {
     public partial class MainForm : Form

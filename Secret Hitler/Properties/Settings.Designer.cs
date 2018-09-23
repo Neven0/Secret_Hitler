@@ -142,5 +142,17 @@ namespace Secret_Hitler.Properties {
                 this["Player9Name"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int AI_Difficulty {
+            get {
+                return ((int)(this["AI_Difficulty"]));
+            }
+            set {
+                this["AI_Difficulty"] = value;
+            }
+        }
     }
 }

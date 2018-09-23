@@ -42,6 +42,16 @@ namespace Secret_Hitler
 
             //Loading number of players from settings
             NUM_PlayerCount.Value = Properties.Settings.Default.Number_Of_Players;
+
+            if (Properties.Settings.Default.AI_Difficulty == 0)
+            {
+                RADBTN_AIRandom.Select();
+            }
+            else if (Properties.Settings.Default.AI_Difficulty == 1)
+            {
+                RADBTN_AISimple.Select();
+            }
+            else RADBTN_AIAdvanced.Select();
             
             //Enabling text boxes depending on number of AI players
             TextBoxEnabler();
@@ -71,7 +81,17 @@ namespace Secret_Hitler
             Properties.Settings.Default.Player8Name = TXTBOX_Player8Name.Text;
             Properties.Settings.Default.Player9Name = TXTBOX_Player9Name.Text;
 
-            Properties.Settings.Default.Number_Of_Players = Convert.ToInt32(NUM_PlayerCount.Value); 
+            Properties.Settings.Default.Number_Of_Players = Convert.ToInt32(NUM_PlayerCount.Value);
+
+            if (RADBTN_AIRandom.Checked==true)
+            {
+                Properties.Settings.Default.AI_Difficulty = 0;
+            }
+            else if (RADBTN_AISimple.Checked == true)
+            {
+                Properties.Settings.Default.AI_Difficulty = 1;
+            }
+            else Properties.Settings.Default.AI_Difficulty = 2;
 
             Close();
         }
@@ -102,6 +122,24 @@ namespace Secret_Hitler
                 else textBoxes[i].Enabled = true;
             }
 
+        }
+
+        private void RADBTN_AISimple_MouseHover(object sender, EventArgs e)
+        {
+            ToolTip toolTip = new ToolTip();
+            toolTip.SetToolTip(RADBTN_AISimple, "Computer players will play simple and to win");
+        }
+
+        private void RADBTN_AIAdvanced_MouseHover(object sender, EventArgs e)
+        {
+            ToolTip toolTip = new ToolTip();
+            toolTip.SetToolTip(RADBTN_AIAdvanced, "Computer players will play more strategically to avoid detection");
+        }
+
+        private void RADBTN_AIRandom_MouseHover(object sender, EventArgs e)
+        {
+            ToolTip toolTip = new ToolTip();
+            toolTip.SetToolTip(RADBTN_AIRandom, "Computer players will do every action randomly");
         }
     }
 }

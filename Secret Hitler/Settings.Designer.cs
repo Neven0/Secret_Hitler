@@ -41,8 +41,13 @@
             this.TXTBOX_Player6Name = new System.Windows.Forms.TextBox();
             this.TXTBOX_Player5Name = new System.Windows.Forms.TextBox();
             this.LBL_AIPlayerCount = new System.Windows.Forms.Label();
+            this.GRPBOX_AIDifficulty = new System.Windows.Forms.GroupBox();
+            this.RADBTN_AISimple = new System.Windows.Forms.RadioButton();
+            this.RADBTN_AIAdvanced = new System.Windows.Forms.RadioButton();
+            this.RADBTN_AIRandom = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_PlayerCount)).BeginInit();
             this.GRPBOX_PlayerNames.SuspendLayout();
+            this.GRPBOX_AIDifficulty.SuspendLayout();
             this.SuspendLayout();
             // 
             // TXTBOX_Player1Name
@@ -153,11 +158,60 @@
             this.LBL_AIPlayerCount.TabIndex = 8;
             this.LBL_AIPlayerCount.Text = "Number of computer players";
             // 
+            // GRPBOX_AIDifficulty
+            // 
+            this.GRPBOX_AIDifficulty.Controls.Add(this.RADBTN_AIRandom);
+            this.GRPBOX_AIDifficulty.Controls.Add(this.RADBTN_AIAdvanced);
+            this.GRPBOX_AIDifficulty.Controls.Add(this.RADBTN_AISimple);
+            this.GRPBOX_AIDifficulty.Location = new System.Drawing.Point(319, 75);
+            this.GRPBOX_AIDifficulty.Name = "GRPBOX_AIDifficulty";
+            this.GRPBOX_AIDifficulty.Size = new System.Drawing.Size(111, 90);
+            this.GRPBOX_AIDifficulty.TabIndex = 9;
+            this.GRPBOX_AIDifficulty.TabStop = false;
+            this.GRPBOX_AIDifficulty.Text = "Computer difficulty";
+            // 
+            // RADBTN_AISimple
+            // 
+            this.RADBTN_AISimple.AutoSize = true;
+            this.RADBTN_AISimple.Location = new System.Drawing.Point(6, 44);
+            this.RADBTN_AISimple.Name = "RADBTN_AISimple";
+            this.RADBTN_AISimple.Size = new System.Drawing.Size(56, 17);
+            this.RADBTN_AISimple.TabIndex = 0;
+            this.RADBTN_AISimple.TabStop = true;
+            this.RADBTN_AISimple.Text = "Simple";
+            this.RADBTN_AISimple.UseVisualStyleBackColor = true;
+            this.RADBTN_AISimple.MouseHover += new System.EventHandler(this.RADBTN_AISimple_MouseHover);
+            // 
+            // RADBTN_AIAdvanced
+            // 
+            this.RADBTN_AIAdvanced.AutoSize = true;
+            this.RADBTN_AIAdvanced.Location = new System.Drawing.Point(6, 67);
+            this.RADBTN_AIAdvanced.Name = "RADBTN_AIAdvanced";
+            this.RADBTN_AIAdvanced.Size = new System.Drawing.Size(74, 17);
+            this.RADBTN_AIAdvanced.TabIndex = 1;
+            this.RADBTN_AIAdvanced.TabStop = true;
+            this.RADBTN_AIAdvanced.Text = "Advanced";
+            this.RADBTN_AIAdvanced.UseVisualStyleBackColor = true;
+            this.RADBTN_AIAdvanced.MouseHover += new System.EventHandler(this.RADBTN_AIAdvanced_MouseHover);
+            // 
+            // RADBTN_AIRandom
+            // 
+            this.RADBTN_AIRandom.AutoSize = true;
+            this.RADBTN_AIRandom.Location = new System.Drawing.Point(6, 20);
+            this.RADBTN_AIRandom.Name = "RADBTN_AIRandom";
+            this.RADBTN_AIRandom.Size = new System.Drawing.Size(65, 17);
+            this.RADBTN_AIRandom.TabIndex = 2;
+            this.RADBTN_AIRandom.TabStop = true;
+            this.RADBTN_AIRandom.Text = "Random";
+            this.RADBTN_AIRandom.UseVisualStyleBackColor = true;
+            this.RADBTN_AIRandom.MouseHover += new System.EventHandler(this.RADBTN_AIRandom_MouseHover);
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(467, 286);
+            this.Controls.Add(this.GRPBOX_AIDifficulty);
             this.Controls.Add(this.LBL_AIPlayerCount);
             this.Controls.Add(this.GRPBOX_PlayerNames);
             this.Controls.Add(this.NUM_PlayerCount);
@@ -168,6 +222,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUM_PlayerCount)).EndInit();
             this.GRPBOX_PlayerNames.ResumeLayout(false);
             this.GRPBOX_PlayerNames.PerformLayout();
+            this.GRPBOX_AIDifficulty.ResumeLayout(false);
+            this.GRPBOX_AIDifficulty.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -188,5 +244,9 @@
         private System.Windows.Forms.TextBox TXTBOX_Player6Name;
         private System.Windows.Forms.TextBox TXTBOX_Player5Name;
         private System.Windows.Forms.Label LBL_AIPlayerCount;
+        private System.Windows.Forms.GroupBox GRPBOX_AIDifficulty;
+        private System.Windows.Forms.RadioButton RADBTN_AIRandom;
+        private System.Windows.Forms.RadioButton RADBTN_AIAdvanced;
+        private System.Windows.Forms.RadioButton RADBTN_AISimple;
     }
 }
