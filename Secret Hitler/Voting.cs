@@ -17,15 +17,15 @@ namespace Secret_Hitler
         public Voting(List<Players> playersList)
         {
             InitializeComponent();
-            //Writing the label regarding who the current president is
-            for (int i = 0; i < playersList.Count; i++)
+            //Writing the label regarding who the nominated person is
+
+            if (playersList[0].IsNominated == true)
             {
-                
-                if (playersList[0].IsNominated==true)
-                {
-                    label1.Text = "You have been nominated for chancellor. How do you vote?";
-                }
-                else if (playersList[i].IsNominated==true)
+                label1.Text = "You have been nominated for chancellor. How do you vote?";
+            }
+            else for(int i = 1; i < playersList.Count; i++)
+            {
+                if (playersList[i].IsNominated==true)
                 {
                     label1.Text = playersList[i].Name + " has been nominated for chancellor. How do you vote?";
                     break;

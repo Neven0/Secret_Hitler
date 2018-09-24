@@ -31,23 +31,24 @@ namespace Secret_Hitler
             radioButtons[7] = RADBTN_Player8;
             radioButtons[8] = RADBTN_Player9;
 
+            //Write names on buttons and make the visible
         for (int i = 1; i < playersArray.Count; i++)
          {
             radioButtons[i-1].Text = playersArray[i].Name;
             radioButtons[i-1].Visible = true;
-           
+            //Player that was in office last turn cannot be selected for a chancellor
             if (playersArray[i].WasInOffice==true)
             {
                     radioButtons[i-1].Text += " (player has been in office last turn)";
                     radioButtons[i-1].Enabled = false;
-            }
+            }//Or a player that is dead
             else if (playersArray[i].IsAssassinated==true)
             {
                     radioButtons[i - 1].Text += " (player is assassinated)";
                     radioButtons[i - 1].Enabled = false;
             }
 
-         }
+         } //Making sure that a button will be selected if first 4 people cannot be (dead and been in office)
             if (radioButtons[0].Enabled == true)
             {
                 radioButtons[0].Select();
@@ -56,9 +57,17 @@ namespace Secret_Hitler
             {
                 radioButtons[1].Select();
             }
-            else radioButtons[2].Select();
+            else if (radioButtons[2].Enabled == true)
+            {
+                radioButtons[2].Select();
+            }
+            else if (radioButtons[3].Enabled == true)
+            {
+                radioButtons[3].Select();
+            }
+            else radioButtons[4].Select();
 
-            
+
         }
 
         private void BTN_Nominate_Click(object sender, EventArgs e)
@@ -68,7 +77,7 @@ namespace Secret_Hitler
 
         private void ChooseChancellor_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //Giving value to value for selected member
+            //Giving value that will serve as index number
 
             for (int i = 0; i < radioButtons.Length; i++)
              {

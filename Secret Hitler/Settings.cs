@@ -17,7 +17,7 @@ namespace Secret_Hitler
             InitializeComponent();
 
         }
-
+        //Array of text boxes to manipulate them their availabilty
         TextBox[] textBoxes = new TextBox[5];
         
 
@@ -33,7 +33,7 @@ namespace Secret_Hitler
             TXTBOX_Player7Name.Text = Properties.Settings.Default.Player7Name;
             TXTBOX_Player8Name.Text = Properties.Settings.Default.Player8Name;
             TXTBOX_Player9Name.Text = Properties.Settings.Default.Player9Name;
-
+            //Filling text box array
             textBoxes[0] = TXTBOX_Player5Name;
             textBoxes[1] = TXTBOX_Player6Name;
             textBoxes[2] = TXTBOX_Player7Name;
@@ -42,7 +42,7 @@ namespace Secret_Hitler
 
             //Loading number of players from settings
             NUM_PlayerCount.Value = Properties.Settings.Default.Number_Of_Players;
-
+            //Selecint radio buttons depending on settings
             if (Properties.Settings.Default.AI_Difficulty == 0)
             {
                 RADBTN_AIRandom.Select();
@@ -86,9 +86,9 @@ namespace Secret_Hitler
             Properties.Settings.Default.Player7Name = TXTBOX_Player7Name.Text;
             Properties.Settings.Default.Player8Name = TXTBOX_Player8Name.Text;
             Properties.Settings.Default.Player9Name = TXTBOX_Player9Name.Text;
-
+            //Saving number of players
             Properties.Settings.Default.Number_Of_Players = Convert.ToInt32(NUM_PlayerCount.Value);
-
+            //Saving radio button settings
             if (RADBTN_AIRandom.Checked==true)
             {
                 Properties.Settings.Default.AI_Difficulty = 0;
@@ -107,7 +107,7 @@ namespace Secret_Hitler
 
             Close();
         }
-
+        //Behavior if value of players is too low or too high.
         private void NUM_PlayerCount_ValueChanged(object sender, EventArgs e)
         {
             if (NUM_PlayerCount.Value<4)
@@ -119,7 +119,7 @@ namespace Secret_Hitler
             {
                 MessageBox.Show("Maximum number of computer players is 9!");
                 NUM_PlayerCount.Value = 9;    
-            }
+            } 
             else TextBoxEnabler();
         }
 
@@ -135,29 +135,30 @@ namespace Secret_Hitler
             }
 
         }
+        //Tool tips for radio buttons
         ToolTip toolTip = new ToolTip();
         private void RADBTN_AISimple_MouseHover(object sender, EventArgs e)
         {
-            //ToolTip toolTip = new ToolTip();
+
             toolTip.SetToolTip(RADBTN_AISimple, "Computer players will play simple and to win");
         }
 
         private void RADBTN_AIAdvanced_MouseHover(object sender, EventArgs e)
         {
-            //ToolTip toolTip = new ToolTip();
+
             toolTip.SetToolTip(RADBTN_AIAdvanced, "Computer players will play more strategically to avoid detection");
         }
 
         private void RADBTN_AIRandom_MouseHover(object sender, EventArgs e)
         {
-            //ToolTip toolTip = new ToolTip();
+
             toolTip.SetToolTip(RADBTN_AIRandom, "Computer players will do every action randomly");
         }
 
         private void RADBTN_AIAssassinationYes_MouseHover(object sender, EventArgs e)
         {
-            //ToolTip toolTip = new ToolTip();
-            toolTip.SetToolTip(RADBTN_AIAssassinationYes, "Computer players will use assassinations, including on you");
+
+            toolTip.SetToolTip(RADBTN_AIAssassinationYes, "Computer players will use assassinations, including you");
         }
 
         private void RADBTN_AIAssassinationNo_MouseHover(object sender, EventArgs e)

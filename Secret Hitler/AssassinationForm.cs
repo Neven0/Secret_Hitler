@@ -31,11 +31,13 @@ namespace Secret_Hitler
             radioButtons[7] = RADBTN_Player8;
             radioButtons[8] = RADBTN_Player9;
 
+            //Display the name and make the button visible
             for (int i = 1; i < playersArray.Count; i++)
             {
                 radioButtons[i - 1].Text = playersArray[i].Name;
                 radioButtons[i - 1].Visible = true;
 
+                //If the player is already killed, don't allow that button to be pressed
                 if (playersArray[i].IsAssassinated == true)
                 {
                     radioButtons[i - 1].Text += " (player is already dead)";
@@ -44,6 +46,7 @@ namespace Secret_Hitler
 
 
             }
+            //Select a first enabled radio button
             if (radioButtons[0].Enabled == true)
             {
                 radioButtons[0].Select();
@@ -64,7 +67,7 @@ namespace Secret_Hitler
 
         private void AssassinationForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //Giving value to value for selected member
+            //Once picked, give number that will serve as index number
 
             for (int i = 0; i < radioButtons.Length; i++)
             {

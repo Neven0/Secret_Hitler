@@ -458,19 +458,26 @@ namespace Secret_Hitler
                 //If vote passed, nominated player is the chancellor
                 for (int i = 0; i < PlayersArray.Count; i++)
                 {
+                    //Check if Hitler is the chancellor while there are 3 fascist policies on the board. If so, end game and write why
                     if (PlayersArray[i].IsNominated&&PlayersArray[i].IsHitler&&FascistPolicies>=3)
                     {
                         if (PlayersArray[0].IsLiberal)
                         {
                             RTXTBOX_InfoLog.AppendText("Hitler has been elected as chancellor after3 fascist policies have been enacted! We lost.", Color.Red);
+                            GameOver();
                         }
                         else if (PlayersArray[0].IsFascist)
                         {
                             RTXTBOX_InfoLog.AppendText("Hitler has been elected as chancellor after3 fascist policies have been enacted! We won.", Color.Green);
+                            GameOver();
                         }
-                        else RTXTBOX_InfoLog.AppendText("You, as Hitler, have been elected as chancellor after3 fascist policies have been enacted! Fascists won.", Color.Green);
-                        GameOver();
-                    }
+                        else
+                        {
+                            RTXTBOX_InfoLog.AppendText("You, as Hitler, have been elected as chancellor after3 fascist policies have been enacted! Fascists won.", Color.Green);
+                            GameOver();
+                        }
+
+                    }// If not, promote the nominated person to chancellor
                     else if (PlayersArray[i].IsNominated == true)
                     {
                         PlayersArray[i].IsNominated = false;
@@ -519,13 +526,13 @@ namespace Secret_Hitler
 
             //Reset role labels, chancellor and nomination values for all players
             for (int i = 0; i < PlayersArray.Count; i++)
-            {
+            {   //If the player is killed, skip it
                 if (PlayersArray[i].IsAssassinated==true)
                 {
                     continue;
                 }
                 PlayersArray[i].IsNominated = false;
-
+                //If the player was chancellor in last round, he or she cannot be in office next round
                 if (PlayersArray[i].IsChancellor == true)
                 {
                     PlayersArray[i].IsChancellor = false;
@@ -556,7 +563,7 @@ namespace Secret_Hitler
                 LabelRoles[0].Text = "President";
                 LabelRoles[0].Visible = true;
                 RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + "You are the president.");
-            }
+            } //Different scenarions demanded different outcomes. If the next or next 2 player could not be presidents, it had to be given to third one
             else if (PlayersArray[PlayersArray.Count - 1].IsPresident == true && PlayersArray[1].IsAssassinated == false)
             {
                 PlayersArray[PlayersArray.Count - 1].IsPresident = false;
@@ -574,7 +581,7 @@ namespace Secret_Hitler
                 LabelRoles[2].Text = "President";
                 LabelRoles[2].Visible = true;
                 RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + PlayersArray[2].Name + " is the president.");
-            }
+            } //Same, except if the last player could not be the president together with first
             else if (PlayersArray[PlayersArray.Count - 2].IsPresident == true && PlayersArray[PlayersArray.Count - 1].IsAssassinated == false)
             {
                 PlayersArray[PlayersArray.Count - 2].IsPresident = false;
@@ -599,9 +606,9 @@ namespace Secret_Hitler
                 for (int i = 0; i < PlayersArray.Count-1; i++)
                 {
 
-                    //change president to next person and edite role labels
+                    //change president to next person and edit role labels
                     if (PlayersArray[i].IsPresident == true)
-                    {
+                    {   //Depending on which players are killed, this makes sure that the next president will be the alive one
                         if (PlayersArray[i+1].IsAssassinated==false)
                         {
                             PlayersArray[i].IsPresident = false;
@@ -831,7 +838,7 @@ namespace Secret_Hitler
                 DiscardedPolicies.Add(temp);
                 RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine+"You have discarded a card.");
             }
-            //Randomly pick one if the play is not a chancellor
+            //Randomly pick one if the play is not a chancellor and AI has been set to random
             else
             {
                 if (Properties.Settings.Default.AI_Difficulty == 0)
@@ -841,7 +848,7 @@ namespace Secret_Hitler
                     Policies.RemoveAt(Discard);
                     DiscardedPolicies.Add(temp);
                     //RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + "Chancellor has discarded a card.");
-                }
+                }   //Behavior if AI is set to simple
                 else if (Properties.Settings.Default.AI_Difficulty == 1)
                 {
                     for (int i = 1; i < PlayersArray.Count; i++)
@@ -879,10 +886,9 @@ namespace Secret_Hitler
                                 }
                             }
                         }
-                        else continue;
                     }
                 }
-                else
+                else //Behavior if AI is set to strategic
                 {
                     for (int i = 1; i < PlayersArray.Count; i++)
                     {
@@ -941,12 +947,13 @@ namespace Secret_Hitler
                 RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine+"Fascist law has been added.");
 
             }
-
+                //If AI are allowed to carrout assassinations, this is the code that does it
             if (Properties.Settings.Default.AI_Using_Assassinations==true)
-            {
+            {   //If there are exactly 4 fascist policies and first assassination hasn't been carried out
                 if (FascistPolicies == 4 && FirstAssassinationGiven == false)
                 {
                     FirstAssassinationGiven = true;
+                    //Assassination carried out by a player
                     if (PlayersArray[0].IsPresident == true)
                     {
                         AssassinationForm form = new AssassinationForm(PlayersArray);
@@ -960,6 +967,7 @@ namespace Secret_Hitler
                         LabelRoles[form.Selected].ForeColor = Color.Gray;
                         LabelRoles[form.Selected].Visible = true;
                     }
+                    //Assassination carried out by random AI
                     else if(Properties.Settings.Default.AI_Difficulty==0)
                     {
                         int rand;
@@ -978,7 +986,7 @@ namespace Secret_Hitler
                         LabelRoles[rand].ForeColor = Color.Gray;
                         LabelRoles[rand].Visible = true;
                     }
-                    else
+                    else //Assassination carried out by both simple and strategic AI
                     {
                         for (int i = 1; i < PlayersArray.Count; i++)
                         {
@@ -1023,7 +1031,7 @@ namespace Secret_Hitler
                             }
                         }
                     }
-                }
+                } //Same as above but for second assassination
                 else if (FascistPolicies == 5 && SecondAssassinationGiven == false)
                 {
                     SecondAssassinationGiven = true;
@@ -1059,7 +1067,8 @@ namespace Secret_Hitler
                         LabelRoles[rand].Visible = true;
                     }
                 }
-            }
+            } //If AI assassinations is diasbled, player will get a chance to assassinate a player on their turn and it doesn't matter how many policies there are
+            //since assassinations are saved
             else if (PlayersArray[0].IsPresident == true)
             {
                 if (FascistPolicies >=4 && FirstAssassinationGiven == false)
@@ -1093,24 +1102,34 @@ namespace Secret_Hitler
             }
 
 
-            //If policy win condition has been reached, call in Game over function
+            //If policy win condition has been reached, call in Game over function and give message depending on which role the player has
             if (LiberalPolicies == 5)
             {
                 if (PlayersArray[0].IsLiberal==true)
                 {
                     RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + "Game over, we have won by enacting 5 policies!!",Color.Green);
+                    GameOver();
                 }
-                else RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + "Game over, Liberals have won by enacting 5 policies!! We lost.",Color.Red);
-                GameOver();
+                else
+                {
+                    GameOver();
+                    RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + "Game over, Liberals have won by enacting 5 policies!! We lost.", Color.Red);
+                } 
+
             }
             else if (FascistPolicies == 6)
             {
                 if (PlayersArray[0].IsLiberal == true)
                 {
                     RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + "Game over, Fascists have won by enacting 6 policies!! We lost.", Color.Red);
+                    GameOver();
                 }
-                else RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + "Game over, We have won by enacting 6 policies!!", Color.Green);
-                GameOver();
+                else
+                {
+                    RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + "Game over, We have won by enacting 6 policies!!", Color.Green);
+                    GameOver();
+                } 
+
             }
             else 
             {
@@ -1129,6 +1148,7 @@ namespace Secret_Hitler
                 RoundCounter++;
                 BTN_Continuation.Text = "Next Round";
 
+                //Check if player assassinated is Hitler. If so, end game
                 if (FirstAssassinationGiven == true)
                 {
                     for (int i = 0; i < PlayersArray.Count; i++)
@@ -1138,16 +1158,20 @@ namespace Secret_Hitler
                             if (PlayersArray[0].IsLiberal == true)
                             {
                                 RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + "Hitler has been assassinated! We won.", Color.Green);
+                                GameOver();
+
                             }
                             else if (PlayersArray[0].IsFascist == true)
                             {
                                 RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + "Hitler has been assassinated! We lost.", Color.Red);
+                                GameOver();
                             }
                             else
                             {
                                 RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + "You, as Hitler, have been assassinated! Fascists lost.", Color.Red);
+                                GameOver();
                             }
-                            GameOver();
+
                         }
                     }
                 }
@@ -1158,7 +1182,7 @@ namespace Secret_Hitler
 
         private void GameOver()
         {
-           
+
             //Shows which player was playing as what role
 
             for (int i = 1; i < PlayersArray.Count; i++)
@@ -1176,11 +1200,7 @@ namespace Secret_Hitler
 
                 BTN_Continuation.Text = "Reset";
                 EventStage = 4;
-            }
-
-
-
-            
+            }  
         }
 
         private void PresidentPolicyCheck()
@@ -1197,15 +1217,15 @@ namespace Secret_Hitler
                 
             }
             else
-            {
+            {   //Discarding a card for AI depending on their settings
+                //Random AI
                 if (Properties.Settings.Default.AI_Difficulty == 0)
                 {
                     int Discard = Rand.Next(0, 3);
                     string temp = Policies[Discard];
                     Policies.RemoveAt(Discard);
                     DiscardedPolicies.Add(temp);
-                    //RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + "President has discarded a card.");
-                }
+                } //Simple AI
                 else if (Properties.Settings.Default.AI_Difficulty == 1)
                 {
                     for (int i = 1; i < PlayersArray.Count; i++)
@@ -1255,10 +1275,9 @@ namespace Secret_Hitler
                                 }
                             }
                         }
-                        else continue;
                     }
                 }
-                else
+                else //Strategic AI
                 {
                     for (int i = 1; i < PlayersArray.Count; i++)
                     {
