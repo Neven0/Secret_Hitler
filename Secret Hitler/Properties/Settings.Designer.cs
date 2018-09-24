@@ -154,5 +154,17 @@ namespace Secret_Hitler.Properties {
                 this["AI_Difficulty"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AI_Using_Assassinations {
+            get {
+                return ((bool)(this["AI_Using_Assassinations"]));
+            }
+            set {
+                this["AI_Using_Assassinations"] = value;
+            }
+        }
     }
 }

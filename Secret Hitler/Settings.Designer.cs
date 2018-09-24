@@ -42,12 +42,16 @@
             this.TXTBOX_Player5Name = new System.Windows.Forms.TextBox();
             this.LBL_AIPlayerCount = new System.Windows.Forms.Label();
             this.GRPBOX_AIDifficulty = new System.Windows.Forms.GroupBox();
-            this.RADBTN_AISimple = new System.Windows.Forms.RadioButton();
-            this.RADBTN_AIAdvanced = new System.Windows.Forms.RadioButton();
             this.RADBTN_AIRandom = new System.Windows.Forms.RadioButton();
+            this.RADBTN_AIAdvanced = new System.Windows.Forms.RadioButton();
+            this.RADBTN_AISimple = new System.Windows.Forms.RadioButton();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.RADBTN_AIAssassinationYes = new System.Windows.Forms.RadioButton();
+            this.RADBTN_AIAssassinationNo = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_PlayerCount)).BeginInit();
             this.GRPBOX_PlayerNames.SuspendLayout();
             this.GRPBOX_AIDifficulty.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // TXTBOX_Player1Name
@@ -90,7 +94,7 @@
             // 
             // NUM_PlayerCount
             // 
-            this.NUM_PlayerCount.Location = new System.Drawing.Point(380, 40);
+            this.NUM_PlayerCount.Location = new System.Drawing.Point(368, 40);
             this.NUM_PlayerCount.Name = "NUM_PlayerCount";
             this.NUM_PlayerCount.Size = new System.Drawing.Size(35, 20);
             this.NUM_PlayerCount.TabIndex = 6;
@@ -163,36 +167,12 @@
             this.GRPBOX_AIDifficulty.Controls.Add(this.RADBTN_AIRandom);
             this.GRPBOX_AIDifficulty.Controls.Add(this.RADBTN_AIAdvanced);
             this.GRPBOX_AIDifficulty.Controls.Add(this.RADBTN_AISimple);
-            this.GRPBOX_AIDifficulty.Location = new System.Drawing.Point(319, 75);
+            this.GRPBOX_AIDifficulty.Location = new System.Drawing.Point(335, 66);
             this.GRPBOX_AIDifficulty.Name = "GRPBOX_AIDifficulty";
             this.GRPBOX_AIDifficulty.Size = new System.Drawing.Size(111, 90);
             this.GRPBOX_AIDifficulty.TabIndex = 9;
             this.GRPBOX_AIDifficulty.TabStop = false;
             this.GRPBOX_AIDifficulty.Text = "Computer difficulty";
-            // 
-            // RADBTN_AISimple
-            // 
-            this.RADBTN_AISimple.AutoSize = true;
-            this.RADBTN_AISimple.Location = new System.Drawing.Point(6, 44);
-            this.RADBTN_AISimple.Name = "RADBTN_AISimple";
-            this.RADBTN_AISimple.Size = new System.Drawing.Size(56, 17);
-            this.RADBTN_AISimple.TabIndex = 0;
-            this.RADBTN_AISimple.TabStop = true;
-            this.RADBTN_AISimple.Text = "Simple";
-            this.RADBTN_AISimple.UseVisualStyleBackColor = true;
-            this.RADBTN_AISimple.MouseHover += new System.EventHandler(this.RADBTN_AISimple_MouseHover);
-            // 
-            // RADBTN_AIAdvanced
-            // 
-            this.RADBTN_AIAdvanced.AutoSize = true;
-            this.RADBTN_AIAdvanced.Location = new System.Drawing.Point(6, 67);
-            this.RADBTN_AIAdvanced.Name = "RADBTN_AIAdvanced";
-            this.RADBTN_AIAdvanced.Size = new System.Drawing.Size(74, 17);
-            this.RADBTN_AIAdvanced.TabIndex = 1;
-            this.RADBTN_AIAdvanced.TabStop = true;
-            this.RADBTN_AIAdvanced.Text = "Advanced";
-            this.RADBTN_AIAdvanced.UseVisualStyleBackColor = true;
-            this.RADBTN_AIAdvanced.MouseHover += new System.EventHandler(this.RADBTN_AIAdvanced_MouseHover);
             // 
             // RADBTN_AIRandom
             // 
@@ -206,11 +186,71 @@
             this.RADBTN_AIRandom.UseVisualStyleBackColor = true;
             this.RADBTN_AIRandom.MouseHover += new System.EventHandler(this.RADBTN_AIRandom_MouseHover);
             // 
+            // RADBTN_AIAdvanced
+            // 
+            this.RADBTN_AIAdvanced.AutoSize = true;
+            this.RADBTN_AIAdvanced.Location = new System.Drawing.Point(6, 67);
+            this.RADBTN_AIAdvanced.Name = "RADBTN_AIAdvanced";
+            this.RADBTN_AIAdvanced.Size = new System.Drawing.Size(67, 17);
+            this.RADBTN_AIAdvanced.TabIndex = 1;
+            this.RADBTN_AIAdvanced.TabStop = true;
+            this.RADBTN_AIAdvanced.Text = "Strategic";
+            this.RADBTN_AIAdvanced.UseVisualStyleBackColor = true;
+            this.RADBTN_AIAdvanced.MouseHover += new System.EventHandler(this.RADBTN_AIAdvanced_MouseHover);
+            // 
+            // RADBTN_AISimple
+            // 
+            this.RADBTN_AISimple.AutoSize = true;
+            this.RADBTN_AISimple.Location = new System.Drawing.Point(6, 44);
+            this.RADBTN_AISimple.Name = "RADBTN_AISimple";
+            this.RADBTN_AISimple.Size = new System.Drawing.Size(56, 17);
+            this.RADBTN_AISimple.TabIndex = 0;
+            this.RADBTN_AISimple.TabStop = true;
+            this.RADBTN_AISimple.Text = "Simple";
+            this.RADBTN_AISimple.UseVisualStyleBackColor = true;
+            this.RADBTN_AISimple.MouseHover += new System.EventHandler(this.RADBTN_AISimple_MouseHover);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.RADBTN_AIAssassinationNo);
+            this.groupBox1.Controls.Add(this.RADBTN_AIAssassinationYes);
+            this.groupBox1.Location = new System.Drawing.Point(319, 162);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(136, 61);
+            this.groupBox1.TabIndex = 10;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "AI using assassinations";
+            // 
+            // RADBTN_AIAssassinationYes
+            // 
+            this.RADBTN_AIAssassinationYes.AutoSize = true;
+            this.RADBTN_AIAssassinationYes.Location = new System.Drawing.Point(7, 16);
+            this.RADBTN_AIAssassinationYes.Name = "RADBTN_AIAssassinationYes";
+            this.RADBTN_AIAssassinationYes.Size = new System.Drawing.Size(43, 17);
+            this.RADBTN_AIAssassinationYes.TabIndex = 0;
+            this.RADBTN_AIAssassinationYes.TabStop = true;
+            this.RADBTN_AIAssassinationYes.Text = "Yes";
+            this.RADBTN_AIAssassinationYes.UseVisualStyleBackColor = true;
+            this.RADBTN_AIAssassinationYes.MouseHover += new System.EventHandler(this.RADBTN_AIAssassinationYes_MouseHover);
+            // 
+            // RADBTN_AIAssassinationNo
+            // 
+            this.RADBTN_AIAssassinationNo.AutoSize = true;
+            this.RADBTN_AIAssassinationNo.Location = new System.Drawing.Point(7, 39);
+            this.RADBTN_AIAssassinationNo.Name = "RADBTN_AIAssassinationNo";
+            this.RADBTN_AIAssassinationNo.Size = new System.Drawing.Size(39, 17);
+            this.RADBTN_AIAssassinationNo.TabIndex = 1;
+            this.RADBTN_AIAssassinationNo.TabStop = true;
+            this.RADBTN_AIAssassinationNo.Text = "No";
+            this.RADBTN_AIAssassinationNo.UseVisualStyleBackColor = true;
+            this.RADBTN_AIAssassinationNo.MouseHover += new System.EventHandler(this.RADBTN_AIAssassinationNo_MouseHover);
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(467, 286);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.GRPBOX_AIDifficulty);
             this.Controls.Add(this.LBL_AIPlayerCount);
             this.Controls.Add(this.GRPBOX_PlayerNames);
@@ -224,6 +264,8 @@
             this.GRPBOX_PlayerNames.PerformLayout();
             this.GRPBOX_AIDifficulty.ResumeLayout(false);
             this.GRPBOX_AIDifficulty.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -248,5 +290,8 @@
         private System.Windows.Forms.RadioButton RADBTN_AIRandom;
         private System.Windows.Forms.RadioButton RADBTN_AIAdvanced;
         private System.Windows.Forms.RadioButton RADBTN_AISimple;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RadioButton RADBTN_AIAssassinationNo;
+        private System.Windows.Forms.RadioButton RADBTN_AIAssassinationYes;
     }
 }

@@ -52,6 +52,12 @@ namespace Secret_Hitler
                 RADBTN_AISimple.Select();
             }
             else RADBTN_AIAdvanced.Select();
+
+            if (Properties.Settings.Default.AI_Using_Assassinations == true)
+            {
+                RADBTN_AIAssassinationYes.Select();
+            }
+            else RADBTN_AIAssassinationNo.Select();
             
             //Enabling text boxes depending on number of AI players
             TextBoxEnabler();
@@ -93,6 +99,12 @@ namespace Secret_Hitler
             }
             else Properties.Settings.Default.AI_Difficulty = 2;
 
+            if (RADBTN_AIAssassinationYes.Checked==true)
+            {
+                Properties.Settings.Default.AI_Using_Assassinations = true;
+            }
+            else Properties.Settings.Default.AI_Using_Assassinations = false;
+
             Close();
         }
 
@@ -123,23 +135,34 @@ namespace Secret_Hitler
             }
 
         }
-
+        ToolTip toolTip = new ToolTip();
         private void RADBTN_AISimple_MouseHover(object sender, EventArgs e)
         {
-            ToolTip toolTip = new ToolTip();
+            //ToolTip toolTip = new ToolTip();
             toolTip.SetToolTip(RADBTN_AISimple, "Computer players will play simple and to win");
         }
 
         private void RADBTN_AIAdvanced_MouseHover(object sender, EventArgs e)
         {
-            ToolTip toolTip = new ToolTip();
+            //ToolTip toolTip = new ToolTip();
             toolTip.SetToolTip(RADBTN_AIAdvanced, "Computer players will play more strategically to avoid detection");
         }
 
         private void RADBTN_AIRandom_MouseHover(object sender, EventArgs e)
         {
-            ToolTip toolTip = new ToolTip();
+            //ToolTip toolTip = new ToolTip();
             toolTip.SetToolTip(RADBTN_AIRandom, "Computer players will do every action randomly");
+        }
+
+        private void RADBTN_AIAssassinationYes_MouseHover(object sender, EventArgs e)
+        {
+            //ToolTip toolTip = new ToolTip();
+            toolTip.SetToolTip(RADBTN_AIAssassinationYes, "Computer players will use assassinations, including on you");
+        }
+
+        private void RADBTN_AIAssassinationNo_MouseHover(object sender, EventArgs e)
+        {
+            toolTip.SetToolTip(RADBTN_AIAssassinationNo, "Computer players will not use assassinations, instead it will be saved for you");
         }
     }
 }

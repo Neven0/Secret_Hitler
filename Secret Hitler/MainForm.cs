@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
-//TODO: Set AI behavior depending on difficulty, set Hitler assassination or as chancellor game over, set up setting for AI use of assassinations
+
 namespace Secret_Hitler
 {
     public partial class MainForm : Form
@@ -458,7 +458,20 @@ namespace Secret_Hitler
                 //If vote passed, nominated player is the chancellor
                 for (int i = 0; i < PlayersArray.Count; i++)
                 {
-                    if (PlayersArray[i].IsNominated == true)
+                    if (PlayersArray[i].IsNominated&&PlayersArray[i].IsHitler&&FascistPolicies>=3)
+                    {
+                        if (PlayersArray[0].IsLiberal)
+                        {
+                            RTXTBOX_InfoLog.AppendText("Hitler has been elected as chancellor after3 fascist policies have been enacted! We lost.", Color.Red);
+                        }
+                        else if (PlayersArray[0].IsFascist)
+                        {
+                            RTXTBOX_InfoLog.AppendText("Hitler has been elected as chancellor after3 fascist policies have been enacted! We won.", Color.Green);
+                        }
+                        else RTXTBOX_InfoLog.AppendText("You, as Hitler, have been elected as chancellor after3 fascist policies have been enacted! Fascists won.", Color.Green);
+                        GameOver();
+                    }
+                    else if (PlayersArray[i].IsNominated == true)
                     {
                         PlayersArray[i].IsNominated = false;
                         PlayersArray[i].IsChancellor = true;
@@ -821,12 +834,95 @@ namespace Secret_Hitler
             //Randomly pick one if the play is not a chancellor
             else
             {
-                int Discard = Rand.Next(0, 2);
-                string temp = Policies[Discard];
-                Policies.RemoveAt(Discard);
-                DiscardedPolicies.Add(temp);
-                //MessageBox.Show("Chancellor has discarded a card");
-                RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine+"Chancellor has discarded a card.");
+                if (Properties.Settings.Default.AI_Difficulty == 0)
+                {
+                    int Discard = Rand.Next(0, 2);
+                    string temp = Policies[Discard];
+                    Policies.RemoveAt(Discard);
+                    DiscardedPolicies.Add(temp);
+                    //RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + "Chancellor has discarded a card.");
+                }
+                else if (Properties.Settings.Default.AI_Difficulty == 1)
+                {
+                    for (int i = 1; i < PlayersArray.Count; i++)
+                    {
+                        if (PlayersArray[i].IsChancellor == true)
+                        {
+                            if (PlayersArray[i].IsLiberal == true)
+                            {
+                                if (Policies[0] == "Fascist")
+                                {
+                                    string temp = Policies[0];
+                                    Policies.RemoveAt(0);
+                                    DiscardedPolicies.Add(temp);
+                                }
+                                else
+                                {
+                                    string temp = Policies[1];
+                                    Policies.RemoveAt(1);
+                                    DiscardedPolicies.Add(temp);
+                                }
+                            }
+                            else
+                            {
+                                if (Policies[0] == "Liberal")
+                                {
+                                    string temp = Policies[0];
+                                    Policies.RemoveAt(0);
+                                    DiscardedPolicies.Add(temp);
+                                }
+                                else
+                                {
+                                    string temp = Policies[1];
+                                    Policies.RemoveAt(1);
+                                    DiscardedPolicies.Add(temp);
+                                }
+                            }
+                        }
+                        else continue;
+                    }
+                }
+                else
+                {
+                    for (int i = 1; i < PlayersArray.Count; i++)
+                    {
+                        if (PlayersArray[i].IsChancellor == true)
+                        {
+                            if (PlayersArray[i].IsLiberal == true || ((PlayersArray[i].IsFascist || PlayersArray[i].IsHitler == true) && LiberalPolicies <= 3))
+                            {
+                                if (Policies[0] == "Fascist")
+                                {
+                                    string temp = Policies[0];
+                                    Policies.RemoveAt(0);
+                                    DiscardedPolicies.Add(temp);
+                                }
+                                else
+                                {
+                                    string temp = Policies[1];
+                                    Policies.RemoveAt(1);
+                                    DiscardedPolicies.Add(temp);
+                                }
+                            }
+                            else
+                            {
+                                if (Policies[0] == "Liberal")
+                                {
+                                    string temp = Policies[0];
+                                    Policies.RemoveAt(0);
+                                    DiscardedPolicies.Add(temp);
+                                }
+                                else
+                                {
+                                    string temp = Policies[1];
+                                    Policies.RemoveAt(1);
+                                    DiscardedPolicies.Add(temp);
+                                }
+                            } 
+                        }
+                    }
+                }
+                RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + "Chancellor has discarded a card.");
+
             }
             
             //Increase number of the inacted policies depending which policy it is, remove the first policy from the game
@@ -846,46 +942,129 @@ namespace Secret_Hitler
 
             }
 
-            if (FascistPolicies==4&&FirstAssassinationGiven==false)
+            if (Properties.Settings.Default.AI_Using_Assassinations==true)
             {
-                FirstAssassinationGiven = true;
-                if (PlayersArray[0].IsPresident==true)
+                if (FascistPolicies == 4 && FirstAssassinationGiven == false)
                 {
-                    AssassinationForm form = new AssassinationForm(PlayersArray);
-                    form.ShowDialog();
-                    PlayersArray[form.Selected].IsAssassinated=true;
-                    PlayersArray[form.Selected].IsChancellor = false;
-                    PlayersArray[form.Selected].IsNominated = false;
-                    PlayersArray[form.Selected].WasInOffice = false;
-                    LabelNames[form.Selected].ForeColor = Color.Gray;
-                    LabelRoles[form.Selected].Text = "Dead";
-                    LabelRoles[form.Selected].ForeColor=Color.Gray;
-                    LabelRoles[form.Selected].Visible = true;
-                }
-                else
-                {
-                    int rand;
-                    LOOP:
-                    rand = Rand.Next(0, PlayersArray.Count);
-                    if (PlayersArray[rand].IsPresident==true||PlayersArray[rand].IsAssassinated==true)
+                    FirstAssassinationGiven = true;
+                    if (PlayersArray[0].IsPresident == true)
                     {
-                        goto LOOP;
+                        AssassinationForm form = new AssassinationForm(PlayersArray);
+                        form.ShowDialog();
+                        PlayersArray[form.Selected].IsAssassinated = true;
+                        PlayersArray[form.Selected].IsChancellor = false;
+                        PlayersArray[form.Selected].IsNominated = false;
+                        PlayersArray[form.Selected].WasInOffice = false;
+                        LabelNames[form.Selected].ForeColor = Color.Gray;
+                        LabelRoles[form.Selected].Text = "Dead";
+                        LabelRoles[form.Selected].ForeColor = Color.Gray;
+                        LabelRoles[form.Selected].Visible = true;
                     }
-                    PlayersArray[rand].IsAssassinated = true;
-                    PlayersArray[rand].IsChancellor = false;
-                    PlayersArray[rand].IsNominated = false;
-                    PlayersArray[rand].WasInOffice = false;
-                    LabelNames[rand].ForeColor = Color.Gray;
-                    LabelRoles[rand].Text = "Dead";
-                    LabelRoles[rand].ForeColor = Color.Gray;
-                    LabelRoles[rand].Visible = true;
+                    else if(Properties.Settings.Default.AI_Difficulty==0)
+                    {
+                        int rand;
+                        LOOP:
+                        rand = Rand.Next(0, PlayersArray.Count);
+                        if (PlayersArray[rand].IsPresident == true || PlayersArray[rand].IsAssassinated == true)
+                        {
+                            goto LOOP;
+                        }
+                        PlayersArray[rand].IsAssassinated = true;
+                        PlayersArray[rand].IsChancellor = false;
+                        PlayersArray[rand].IsNominated = false;
+                        PlayersArray[rand].WasInOffice = false;
+                        LabelNames[rand].ForeColor = Color.Gray;
+                        LabelRoles[rand].Text = "Dead";
+                        LabelRoles[rand].ForeColor = Color.Gray;
+                        LabelRoles[rand].Visible = true;
+                    }
+                    else
+                    {
+                        for (int i = 1; i < PlayersArray.Count; i++)
+                        {
+                            if (PlayersArray[i].IsPresident==true)
+                            {
+                                if (PlayersArray[i].IsLiberal==true || (PlayersArray[i].IsHitler && PlayersArray.Count > 6))
+                                {
+                                    int rand;
+                                    LOOP:
+                                    rand = Rand.Next(0, PlayersArray.Count);
+                                    if (PlayersArray[rand].IsPresident == true || PlayersArray[rand].IsAssassinated == true)
+                                    {
+                                        goto LOOP;
+                                    }
+                                    PlayersArray[rand].IsAssassinated = true;
+                                    PlayersArray[rand].IsChancellor = false;
+                                    PlayersArray[rand].IsNominated = false;
+                                    PlayersArray[rand].WasInOffice = false;
+                                    LabelNames[rand].ForeColor = Color.Gray;
+                                    LabelRoles[rand].Text = "Dead";
+                                    LabelRoles[rand].ForeColor = Color.Gray;
+                                    LabelRoles[rand].Visible = true;
+                                }
+                                else if (PlayersArray[i].IsFascist||(PlayersArray[i].IsHitler&&PlayersArray.Count<=6))
+                                {
+                                    int rand;
+                                    LOOP:
+                                    rand = Rand.Next(0, PlayersArray.Count);
+                                    if (PlayersArray[rand].IsPresident == true || PlayersArray[rand].IsAssassinated == true|| PlayersArray[rand].IsFascist == true|| PlayersArray[rand].IsHitler == true)
+                                    {
+                                        goto LOOP;
+                                    }
+                                    PlayersArray[rand].IsAssassinated = true;
+                                    PlayersArray[rand].IsChancellor = false;
+                                    PlayersArray[rand].IsNominated = false;
+                                    PlayersArray[rand].WasInOffice = false;
+                                    LabelNames[rand].ForeColor = Color.Gray;
+                                    LabelRoles[rand].Text = "Dead";
+                                    LabelRoles[rand].ForeColor = Color.Gray;
+                                    LabelRoles[rand].Visible = true;
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (FascistPolicies == 5 && SecondAssassinationGiven == false)
+                {
+                    SecondAssassinationGiven = true;
+                    if (PlayersArray[0].IsPresident == true)
+                    {
+                        AssassinationForm form = new AssassinationForm(PlayersArray);
+                        form.ShowDialog();
+                        PlayersArray[form.Selected].IsAssassinated = true;
+                        PlayersArray[form.Selected].IsChancellor = false;
+                        PlayersArray[form.Selected].IsNominated = false;
+                        PlayersArray[form.Selected].WasInOffice = false;
+                        LabelNames[form.Selected].ForeColor = Color.Gray;
+                        LabelRoles[form.Selected].Text = "Dead";
+                        LabelRoles[form.Selected].ForeColor = Color.Gray;
+                        LabelRoles[form.Selected].Visible = true;
+                    }
+                    else
+                    {
+                        int rand;
+                        LOOP:
+                        rand = Rand.Next(0, PlayersArray.Count);
+                        if (PlayersArray[rand].IsPresident == true || PlayersArray[rand].IsAssassinated == true)
+                        {
+                            goto LOOP;
+                        }
+                        PlayersArray[rand].IsAssassinated = true;
+                        PlayersArray[rand].IsChancellor = false;
+                        PlayersArray[rand].IsNominated = false;
+                        PlayersArray[rand].WasInOffice = false;
+                        LabelNames[rand].ForeColor = Color.Gray;
+                        LabelRoles[rand].Text = "Dead";
+                        LabelRoles[rand].ForeColor = Color.Gray;
+                        LabelRoles[rand].Visible = true;
+                    }
                 }
             }
-            else if (FascistPolicies == 5 && SecondAssassinationGiven == false)
+            else if (PlayersArray[0].IsPresident == true)
             {
-                SecondAssassinationGiven = true; 
-                if (PlayersArray[0].IsPresident == true)
+                if (FascistPolicies >=4 && FirstAssassinationGiven == false)
                 {
+                    FirstAssassinationGiven = true;
                     AssassinationForm form = new AssassinationForm(PlayersArray);
                     form.ShowDialog();
                     PlayersArray[form.Selected].IsAssassinated = true;
@@ -897,23 +1076,19 @@ namespace Secret_Hitler
                     LabelRoles[form.Selected].ForeColor = Color.Gray;
                     LabelRoles[form.Selected].Visible = true;
                 }
-                else
+                else if (FascistPolicies >= 5 && SecondAssassinationGiven == false)
                 {
-                    int rand;
-                    LOOP:
-                    rand = Rand.Next(0, PlayersArray.Count);
-                    if (PlayersArray[rand].IsPresident == true || PlayersArray[rand].IsAssassinated == true)
-                    {
-                        goto LOOP;
-                    }
-                    PlayersArray[rand].IsAssassinated = true;
-                    PlayersArray[rand].IsChancellor = false;
-                    PlayersArray[rand].IsNominated = false;
-                    PlayersArray[rand].WasInOffice = false;
-                    LabelNames[rand].ForeColor = Color.Gray;
-                    LabelRoles[rand].Text = "Dead";
-                    LabelRoles[rand].ForeColor = Color.Gray;
-                    LabelRoles[rand].Visible = true;
+                    SecondAssassinationGiven = true;
+                    AssassinationForm form = new AssassinationForm(PlayersArray);
+                    form.ShowDialog();
+                    PlayersArray[form.Selected].IsAssassinated = true;
+                    PlayersArray[form.Selected].IsChancellor = false;
+                    PlayersArray[form.Selected].IsNominated = false;
+                    PlayersArray[form.Selected].WasInOffice = false;
+                    LabelNames[form.Selected].ForeColor = Color.Gray;
+                    LabelRoles[form.Selected].Text = "Dead";
+                    LabelRoles[form.Selected].ForeColor = Color.Gray;
+                    LabelRoles[form.Selected].Visible = true;
                 }
             }
 
@@ -939,8 +1114,8 @@ namespace Secret_Hitler
             }
             else 
             {
-                //If there are less than three policies in policy card pile, add the discarded policies in, shuffle them and empty the discarded policy list
-                if (Policies.Count < 3)
+                    //If there are less than three policies in policy card pile, add the discarded policies in, shuffle them and empty the discarded policy list
+                    if (Policies.Count < 3)
                 {
                     Policies.AddRange(DiscardedPolicies);
                     Policies.Shuffle();
@@ -953,6 +1128,29 @@ namespace Secret_Hitler
                 EventStage = 5;
                 RoundCounter++;
                 BTN_Continuation.Text = "Next Round";
+
+                if (FirstAssassinationGiven == true)
+                {
+                    for (int i = 0; i < PlayersArray.Count; i++)
+                    {
+                        if (PlayersArray[i].IsHitler == true && PlayersArray[i].IsAssassinated == true)
+                        {
+                            if (PlayersArray[0].IsLiberal == true)
+                            {
+                                RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + "Hitler has been assassinated! We won.", Color.Green);
+                            }
+                            else if (PlayersArray[0].IsFascist == true)
+                            {
+                                RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + "Hitler has been assassinated! We lost.", Color.Red);
+                            }
+                            else
+                            {
+                                RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + "You, as Hitler, have been assassinated! Fascists lost.", Color.Red);
+                            }
+                            GameOver();
+                        }
+                    }
+                }
             }
 
 
@@ -1000,15 +1198,118 @@ namespace Secret_Hitler
             }
             else
             {
-                
-                //New integer that will be save the index of the discarded policy
-                int RandomPolicy = Rand.Next(0, 3);
-                //Same as above
-                string temp = Policies[RandomPolicy];
-                Policies.RemoveAt(RandomPolicy);
-                DiscardedPolicies.Add(temp);
-                //MessageBox.Show("President has discarded a card");
-                RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine+"President has discarded a card.");
+                if (Properties.Settings.Default.AI_Difficulty == 0)
+                {
+                    int Discard = Rand.Next(0, 3);
+                    string temp = Policies[Discard];
+                    Policies.RemoveAt(Discard);
+                    DiscardedPolicies.Add(temp);
+                    //RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + "President has discarded a card.");
+                }
+                else if (Properties.Settings.Default.AI_Difficulty == 1)
+                {
+                    for (int i = 1; i < PlayersArray.Count; i++)
+                    {
+                        if (PlayersArray[i].IsPresident == true)
+                        {
+                            if (PlayersArray[i].IsLiberal == true)
+                            {
+                                if (Policies[0] == "Fascist")
+                                {
+                                    string temp = Policies[0];
+                                    Policies.RemoveAt(0);
+                                    DiscardedPolicies.Add(temp);
+                                }
+                                else if(Policies[1] == "Fascist")
+                                {
+                                    string temp = Policies[1];
+                                    Policies.RemoveAt(1);
+                                    DiscardedPolicies.Add(temp);
+                                }
+                                else
+                                {
+                                    string temp = Policies[2];
+                                    Policies.RemoveAt(2);
+                                    DiscardedPolicies.Add(temp);
+                                }
+                            }
+                            else
+                            {
+                                if (Policies[0] == "Liberal")
+                                {
+                                    string temp = Policies[0];
+                                    Policies.RemoveAt(0);
+                                    DiscardedPolicies.Add(temp);
+                                }
+                                else if(Policies[1] == "Liberal")
+                                {
+                                    string temp = Policies[1];
+                                    Policies.RemoveAt(1);
+                                    DiscardedPolicies.Add(temp);
+                                }
+                                else
+                                {
+                                    string temp = Policies[2];
+                                    Policies.RemoveAt(2);
+                                    DiscardedPolicies.Add(temp);
+                                }
+                            }
+                        }
+                        else continue;
+                    }
+                }
+                else
+                {
+                    for (int i = 1; i < PlayersArray.Count; i++)
+                    {
+                        if (PlayersArray[i].IsPresident == true)
+                        {
+                            if (PlayersArray[i].IsLiberal == true || ((PlayersArray[i].IsFascist==true || PlayersArray[i].IsHitler == true) && LiberalPolicies < 3))
+                            {
+                                if (Policies[0] == "Fascist")
+                                {
+                                    string temp = Policies[0];
+                                    Policies.RemoveAt(0);
+                                    DiscardedPolicies.Add(temp);
+                                }
+                                else if (Policies[1] == "Fascist")
+                                {
+                                    string temp = Policies[1];
+                                    Policies.RemoveAt(1);
+                                    DiscardedPolicies.Add(temp);
+                                }
+                                else
+                                {
+                                    string temp = Policies[2];
+                                    Policies.RemoveAt(2);
+                                    DiscardedPolicies.Add(temp);
+                                }
+                            }
+                            else
+                            {
+                                if (Policies[0] == "Liberal")
+                                {
+                                    string temp = Policies[0];
+                                    Policies.RemoveAt(0);
+                                    DiscardedPolicies.Add(temp);
+                                }
+                                else if (Policies[1] == "Liberal")
+                                {
+                                    string temp = Policies[1];
+                                    Policies.RemoveAt(1);
+                                    DiscardedPolicies.Add(temp);
+                                }
+                                else
+                                {
+                                    string temp = Policies[2];
+                                    Policies.RemoveAt(2);
+                                    DiscardedPolicies.Add(temp);
+                                }
+                            }
+                        }
+                    }
+                }
+                RTXTBOX_InfoLog.AppendText(Environment.NewLine + Environment.NewLine + "President has discarded a card.");
             }
 
             //Move event Stage to next stage
